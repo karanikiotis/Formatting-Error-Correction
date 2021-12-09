@@ -14,7 +14,7 @@ def count_occur():
 
     d = dict((c, i) for i, c in enumerate(tokens_available))
 
-    folder_path = r'C:\CodeRepository\Formatting-Error-Correction\Scripts' #Corpus_Java folder contains the 10K Java files
+    folder_path = r'C:\CodeRepository\Thesis\Data\Corpus_Java' #Corpus_Java folder contains the 10K Java files
     os.chdir(folder_path)
 
     corpus_bigrams = [] #Each element of the list represents a list that contains all the bigrams(as tuples) of the i-th code snippet

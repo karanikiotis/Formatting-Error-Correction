@@ -1,4 +1,5 @@
 import sys
+sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction')
 import os
 import pickle
 import math
@@ -7,8 +8,6 @@ from nltk.util import ngrams
 from Old_Scripts.tokenizer import tokenize
 from S1_corpus_bigrams_occurences import count_occur
 from S2_corpus_bigrams_unique_occurences import count_unique_occur
-
-sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction\Scripts')
 
 with open(r'C:\CodeRepository\Thesis\Data\occurences_new.p', 'rb') as fp: 
   occurences = pickle.load(fp)
