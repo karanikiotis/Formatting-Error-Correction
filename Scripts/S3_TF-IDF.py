@@ -15,7 +15,7 @@ with open(r'C:\CodeRepository\Thesis\Data\occurences_new.p', 'rb') as fp:
   #print(f'Total number of bigrams: {len(occurences.keys())}\n')
 
 corpus_bigrams = count_occur()
-unique_occurences = count_unique_occur(corpus_bigrams)
+vocab = count_unique_occur(corpus_bigrams) #Vocabulary: consists of the corpus bigrams(obviously each bigram appears once)
 
 os.chdir(r'C:\CodeRepository\Formatting-Error-Correction\Scripts')
 
@@ -51,7 +51,7 @@ print(f'\nCode Snippet TF:{TF}\n\n')
 
 #2.Computation of DF for the whole corpus
 DF = {}
-for key,value in unique_occurences.items() :
+for key,value in vocab.items() :
     DF.update({key: round((value/N),3)})
 #print(f'DF(for whole corpus):{DF}\n\n')
 
