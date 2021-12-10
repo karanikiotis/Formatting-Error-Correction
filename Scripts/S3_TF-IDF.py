@@ -15,7 +15,7 @@ with open(r'C:\CodeRepository\Thesis\Data\occurences_new.p', 'rb') as fp:
   #print(f'Total number of bigrams: {len(occurences.keys())}\n')
 
 corpus_bigrams = count_occur()
-vocab = count_unique_occur(corpus_bigrams) #Vocabulary: consists of the corpus bigrams(obviously each bigram appears once)
+vocab = count_unique_occur(corpus_bigrams) #Vocabulary: consists of the corpus bigrams(obviously each bigram appears)
 
 os.chdir(r'C:\CodeRepository\Formatting-Error-Correction\Scripts')
 
