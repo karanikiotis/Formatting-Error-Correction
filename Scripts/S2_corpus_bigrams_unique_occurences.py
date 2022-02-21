@@ -10,9 +10,8 @@ def count_unique_occur(corpus_b):
     num_of_b_appear = Counter(b)
     unique_bigram_per_file.append(list(num_of_b_appear.keys()))
 
-
   unique_occurences_per_bigram = dict( Counter(chain(*unique_bigram_per_file)))
   unique_occurences_per_bigram = dict(sorted(unique_occurences_per_bigram.items()))
-  print(f'\n\n****Unique occurences of each bigram on corpus:**** {unique_occurences_per_bigram}\n')
+  #print(f'\n\n****Unique occurences of each bigram on corpus:**** {unique_occurences_per_bigram}\n')
 
   return unique_occurences_per_bigram
