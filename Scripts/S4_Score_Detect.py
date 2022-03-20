@@ -2,12 +2,10 @@ import numpy as np
 import pickle
 import math
 import sys
-
 from utils.helper_func import truncate
 from Scripts.tokenizer import tokenize
 from nltk.util import everygrams, ngrams
 from nltk.lm.preprocessing import pad_both_ends 
-
 
 tokens_available = ["<start>","<end>","<eos>","<tab>","<spacetab>","<dot>","<comma>","<semicolon>","<colon>","<exclamation>",
                     "<at>","<hash>","<dollar>","<perc>","<caret>","<and>","<power>","<open_par>","<close_par>","<minus>",
@@ -43,6 +41,13 @@ def get_score(code):
     file_score = calc_score(tokens)
 
     snippets = list(ngrams(tokens,TOK_PER_SNIP))
+
+     #Calculate each snippet's length
+    pos = 0
+    snip_lengths = []
+    for i, snip in enumerate(snippets):
+        pos += sum(lengths[i * TOK_PER_SNIP: (i * TOK_PER_SNIP ) + len(snip)]) 
+        snip_lengths.append(pos)
 
     snips_scores = [] #score of each snippet according to calc_score
     for snip in snippets:
@@ -102,14 +107,14 @@ def get_score(code):
         score_per_token.update([(key,score)])
     #print(score_per_token)
 
-    return score_per_token,snips_scores,file_score
+    return list(score_per_token.values()),snips_scores,file_score,snippets,snip_lengths
 
 
 def error_detection(code,thresh): #Returns the tokens with higher score than the THRESHOLD
     THRESHOLD = thresh
 
     poss_err_tokens = {}
-    s_tokens,_,_ = get_score(code)
+    s_tokens,_,_,_,_ = get_score(code)
     for key in list(s_tokens.keys()):
         if(s_tokens.get(key,None) >= THRESHOLD):
             poss_err_tokens.update([(key,s_tokens.get(key,None))])

@@ -1,11 +1,14 @@
-from tensorflow import keras
-from tokenizer import tokenize
-import numpy as np
-import score_snippet
-import fixer
-import math
 import sys
+sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction')
+from tensorflow import keras
+import math
 import os
+from tokenizer import tokenize
+from utils.helper_func import truncate
+import numpy as np
+import S4_Score_Detect
+import S6_Error_Fixer
+
 
 model_fw = keras.models.load_model("C:/CodeRepository/Formatting-Error-Correction/LSTM Model/LSTM_emb_dr_double.h5")
 fix_dir = "_FIXES/"
@@ -20,7 +23,7 @@ replacements = ["","","\n","\t","    ",".",",",";",":","!","@","#","$", "%","^",
                "}","<",">","?","\\","for ","true ","int "," abc "," ","/* comment */","/"," abc123 ","a",
                "123","<unk>"]
 
-d     = dict((c, i) for i, c in enumerate(tokens_available))
+d = dict((c, i) for i, c in enumerate(tokens_available))
 d_inv = dict((i, c) for i, c in enumerate(tokens_available))
 
 file = open(sys.argv[1], "r", encoding = "utf-8")
@@ -75,86 +78,54 @@ for i, testgram in enumerate(tengrams[:-11]):
     # Assign probability to token's first character
     pos += lengths[i+9]
     chars_fw.append(pos)
-    print("Position: ", pos)
-    print("Predicted next token: ", d_inv.get(pred_token))
-    print("Token found in code: ", d_inv.get(y[i])) 
+    #print("Position: ", pos)
+    #print("Predicted next token: ", d_inv.get(pred_token))
+    #print("Token found in code: ", d_inv.get(y[i])) 
     probs_fw.append(1.0 - preds[0][y[i]])
-    print("Error probability: ", 1.0 - preds[0][y[i]], "\n")
+    #print("Error probability: ", 1.0 - preds[0][y[i]], "\n")
 
 #Printing of Tokens & Tokens length
-print(f'Tokens:{tokens_enc}\n')
-print(f'Tokens Length:{lengths}\n')
+#print(f'Tokens:{tokens_enc}\n')
+#print(f'Tokens Length:{lengths}\n')
 
 #Printing of Chars_fw and Probs_fw
-print(f'Chars_fw:{chars_fw}\n')
-print(f'Probs_fw(Error Probs):{[round(i,2) for i in probs_fw]}\n')
+#print(f'Chars_fw:{chars_fw}\n')
+#print(f'Probs_fw(Error Probs):{[round(i,2) for i in probs_fw]}\n')
 
 ###################################################################
-# Modify probabilities based on snippet scoring #
+# Modify probabilities based on token scoring #
 ###################################################################
-[scores, snip_lengths, edge_pos, edge_scores,edge_tok,snips] = score_snippet.get_score(code)
+[scores_token,scores,file_score,snips,snip_lengths] = S4_Score_Detect.get_score(code)
+score_pre = file_score
+#print(f'Scores of Tokens:{scores_token}\n')
+print(f'\nScore of code before any fixing: {score_pre}\n')
 
-#Printing of Snippet, Score of Snippet and the length of each Snippet
-for i,s in enumerate(scores):
-    print(f'Snippet {i}:{snips[i]},  Score:{round(s,3)},  Length:{snip_lengths[i]}\n')
+min_score_token = min(scores_token)
+max_score_token = max(scores_token)
+scores_token_mapped = []
+for i in scores_token:
+    scores_token_mapped.append(truncate(np.interp(i,[min_score_token,max_score_token],[1,0]),4))
 
-#Printing of edge positions, edge tokens, edge scores
-print(f'Edge positions:{edge_pos}\nEdge Tokens:{edge_tok}\nEdge_Scores:{edge_scores}\n')
+for i in range(len(probs_fw)):
+    probs_fw[i] *= 1-scores_token_mapped[i]
+    probs_fw[i] = truncate(probs_fw[i],4)
 
-# Average score of the whole code before fixing
-score_pre = sum(scores)/len(scores) 
-print(f'\nAverage score of code before any fixing: {score_pre}\n')
-
-# Modify probs based on scoring
-for i in range(0,len(snip_lengths) - 1):
-    for pos in range(snip_lengths[i], snip_lengths[i+1]):
-        if pos in chars_fw:
-            if pos in edge_pos:
-                probs_fw[chars_fw.index(pos)] *= 1 - min(scores[i], edge_scores[math.floor(edge_pos.index(pos)/2)])
-            else:
-                probs_fw[chars_fw.index(pos)] *= 1 - scores[i]
+#print(f'Score of tokens mapped to [0,1]:{scores_token_mapped}\n')
+#print(f'New probs_fw:{probs_fw}')
 
 fixes_sorted = [x for _,x in sorted(zip(probs_fw, sug_fixes), reverse=True)]
 chars_sorted = [x for _,x in sorted(zip(probs_fw, chars_fw), reverse=True)]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ###########################################
 # Get 'fixed' codes and save them to file #
 ###########################################
-acc_codes = fixer.get_fixes(code, chars_sorted, fixes_sorted, score_pre)
-
-new_scores = score_snippet.get_score(acc_codes)[0] #Score fixed code
-score_new = sum(new_scores)/len(new_scores) 
-
-print(f'Average score of code after fixing: {score_new}\n')
+acc_codes = S6_error_fixer.get_fixes(code, chars_sorted, fixes_sorted, score_pre)
+for i,c in enumerate(acc_codes):
+    _,_,new_score,_,_ = S4_Score_Detect.get_score(c) 
+    print(f'New_score of fix {i}: {new_score}\n')
 
 os.makedirs(fix_dir, exist_ok = True)
-
 for i, code in enumerate(acc_codes):
     with open(fix_dir + str(i+1) + ".txt", 'w') as f:
         f.write(code)
 print("Possible fixed codes saved in folder " + fix_dir)
-
-
-####################################
-# Print sorted character positions #
-####################################
-#print(' '.join(str(pos) for pos in chars_sorted))
-#print(sorted(zip(probs_fw, chars_fw), reverse=True))

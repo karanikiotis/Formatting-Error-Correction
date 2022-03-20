@@ -7,7 +7,7 @@ import math
 import sys
 import os
 
-model_fw = keras.models.load_model("C:/CodeRepository/Thesis/Models/LSTM_emb_dr_double.h5")
+model_fw = keras.models.load_model("C:/CodeRepository/Formatting-Error-Correction/LSTM Model/LSTM_emb_dr_double.h5")
 fix_dir = "_FIXES/"
 
 tokens_available = ["<start>","<end>","<eos>","<tab>","<spacetab>","<dot>","<comma>","<semicolon>","<colon>","<exclamation>",
@@ -37,7 +37,7 @@ for i in range(10):
     lengths.insert(0, 0)            # zero length for 10 <start> tokens
     lengths.insert(len(lengths), 0) # zero length for 10 <end> tokens
 
-chars_fw = [] # stores the starting position of each token -- the position of the 1st character of each token
+chars_fw = [] # stores the starting offset of each token 
 probs_fw = [] # stores the error propability of prediction for each token
 
 tengrams = []
@@ -51,9 +51,7 @@ for i in range(len(tokens_enc)-9):
 # Calculate forward error probabilities using the forward LSTM model #
 ######################################################################
 
-# The next token for a tengram is the last token
-# in the next tengram
-y = []
+y = []# The next token for a tengram is the last token in the next tengram
 for i in range(len(tengrams)-1):
     y.append(tengrams[i+1][9])
 
@@ -67,14 +65,15 @@ for i, testgram in enumerate(tengrams[:-11]):
     print(f'Iteration:{i}\nCurrent_Testgram:{test}')
 
     preds = model_fw.predict(test.reshape(1, 10), verbose=0)
+    print(f'Predictions:{preds}\n')
     pred_token = (np.where( preds[0] == np.amax(preds[0]))[0][0]) 
 
     # Add 5 most probable fixes to sug_fixes
     pos_fixes = [repl for _,repl in sorted(zip(preds[0], replacements),reverse=True)] 
-    pos_fixes = pos_fixes[:5]   
+    pos_fixes = pos_fixes[:5]  
+    print(f'Possible fixes:{pos_fixes}\n') 
     sug_fixes.append(pos_fixes)
 
-    # Assign probability to token's first character
     pos += lengths[i+9]
     chars_fw.append(pos)
     print("Position: ", pos)
@@ -86,6 +85,8 @@ for i, testgram in enumerate(tengrams[:-11]):
 #Printing of Tokens & Tokens length
 print(f'Tokens:{tokens_enc}\n')
 print(f'Tokens Length:{lengths}\n')
+
+print(f'Possible fix:{sug_fixes}\n')
 
 #Printing of Chars_fw and Probs_fw
 print(f'Chars_fw:{chars_fw}\n')
@@ -135,7 +136,6 @@ for i, code in enumerate(acc_codes):
     with open(fix_dir + str(i+1) + ".txt", 'w') as f:
         f.write(code)
 print("Possible fixed codes saved in folder " + fix_dir)
-
 
 ####################################
 # Print sorted character positions #
