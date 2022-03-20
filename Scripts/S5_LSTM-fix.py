@@ -119,7 +119,7 @@ chars_sorted = [x for _,x in sorted(zip(probs_fw, chars_fw), reverse=True)]
 ###########################################
 # Get 'fixed' codes and save them to file #
 ###########################################
-acc_codes = S6_error_fixer.get_fixes(code, chars_sorted, fixes_sorted, score_pre)
+acc_codes = S6_Error_Fixer.get_fixes(code, chars_sorted, fixes_sorted, score_pre)
 for i,c in enumerate(acc_codes):
     _,_,new_score,_,_ = S4_Score_Detect.get_score(c) 
     print(f'New_score of fix {i}: {new_score}\n')
