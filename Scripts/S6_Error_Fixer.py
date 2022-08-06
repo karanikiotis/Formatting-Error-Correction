@@ -1,5 +1,5 @@
 import javac_parser
-from S4_Score_Detect import get_score
+from S4_Score_Detect import ngramScore
 
 #Java parser
 parser = javac_parser.Java()
@@ -21,7 +21,7 @@ def get_fixes(code, chars_sorted, fixes_sorted, score):
         # Check if new code is parsable and improved
         if not (parser.get_num_parse_errors(new_code)): 
             if new_code not in acc_codes:
-                score_new = get_score(new_code)[2]
+                score_new = ngramScore(new_code)[2]
                 if score_new < score:
                     acc_codes.append(new_code)
         else:
@@ -53,7 +53,7 @@ def get_fixes(code, chars_sorted, fixes_sorted, score):
             # Check if new code is parsable and improved
             if not (parser.get_num_parse_errors(new_code)):
                 if new_code not in acc_codes:
-                    score_new = get_score(new_code)[2]
+                    score_new = ngramScore(new_code)[2]
                     if score_new < score:
                         acc_codes.append(new_code)
             else:
@@ -85,7 +85,7 @@ def get_fixes(code, chars_sorted, fixes_sorted, score):
             # Check if new code is parsable and improved
             if not (parser.get_num_parse_errors(new_code)):
                 if new_code not in acc_codes:
-                    score_new = get_score(new_code)[2]
+                    score_new = ngramScore(new_code)[2]
                     if score_new < score:
                         acc_codes.append(new_code)
             else:

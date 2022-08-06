@@ -1,172 +1,115 @@
+from stat import SF_APPEND
 import numpy as np
 import pickle
-import math
-import sys
+import pdb
 from utils.helper_func import truncate
 from Scripts.tokenizer import tokenize
-from nltk.util import everygrams, ngrams
+from nltk.util import ngrams
 from nltk.lm.preprocessing import pad_both_ends 
+from utils import Score_Detect_Functions as sdf
 
 tokens_available = ["<start>","<end>","<eos>","<tab>","<spacetab>","<dot>","<comma>","<semicolon>","<colon>","<exclamation>",
                     "<at>","<hash>","<dollar>","<perc>","<caret>","<and>","<power>","<open_par>","<close_par>","<minus>",
                     "<plus>","<equal>","<open_bracket>","<close_bracket>","<open_curly>","<close_curly>","<less_than>",
                     "<greater_than>","<quest>","<back_slash>","<keyword>","<literal>","<lit>","<word>","<space>",
                     "<com>","<slash>","<string>","<char>","<number>","<unk>"]
-
 d = dict((c, i) for i, c in enumerate(tokens_available))
 
-#Loading 10-Gram Language Model used for scoring
-with open(r"C:\CodeRepository\Formatting-Error-Correction\10-Gram Model\\10_gram_model_v2.p", "rb") as fp:
-    lm = pickle.load(fp)
+def ngramScore(code):
+    """
+    Description:
 
-def calc_score(snip): 
+    Inputs:
+        code () :
 
-    snip_transf = []
-    for i in snip:
-        snip_transf.append(tokens_available[i])
-        
-    snip_padded = list(pad_both_ends(snip_transf,n=10))
-    snip_final = list(ngrams(snip_padded,10))
-   
-    score = lm.entropy(snip_final)
+    Outputs:
+        tokenScoreS () :
+        snippetsScores () :
+        fileScore () :
+        snippets () :
+        snippetsLengths () :
+    """
+    
+    # We have trained a 10-gram model that will be used for code snippet scoring
+    # Load 10-gram model
+    lm = sdf.ngramModelImport(r'C:\CodeRepository\Formatting-Error-Correction\10-Gram Model','10_gram_model_v2.p')
 
-    return score
+    # For each one of 20-token snippets, we are going to calculate its score
+    # Next, in order to calculate the score for each token, we are going to
+    # see in which snippets, each token belongs to.
+    # Each token's score will be the mean of the scores of the code snippets where it belongs to
 
-def get_score(code):
-    TOK_PER_SNIP = 20 #We break the code into 20-token snippets
-
+    # TOK_PER_SNIP represents the number of tokens that its code snippet will be consisted of 
+    tokensPerSnippet = 20 
+    # Tokenize code
+    print('Step 0: Source code file tokenization...\n')
     [tokens,lengths] = tokenize(code)
+    # Encode tokens. Each token of the source code will be represent by a positive integer value
     tokens = [d[x] for x in tokens]
+    # Calculate the score of the whole source code file regarding its formattion
+    print('Step 0.1: Source code file scoring...\n')
+    fileScore = sdf.calcScore(tokens,lm)
+    #pdb.set_trace()
+    # Break source code file into snippets (ngrams) that will consist of TOK_PER_SNIP tokens
+    snippets = list(ngrams(tokens,tokensPerSnippet))
 
-    file_score = calc_score(tokens)
+    print('Step 1: Snippets length calculation...\n')
+    snippetsLengths = sdf.snippetLengthCalculation(snippets,lengths,tokensPerSnippet)
 
-    snippets = list(ngrams(tokens,TOK_PER_SNIP))
+    print('Step 2: Snippets score calculation using entropy metric...\n')
+    snippetsScores = sdf.snippetsScoreCalculation(snippets,lm)
 
-     #Calculate each snippet's length
-    pos = 0
-    snip_lengths = []
-    for i, snip in enumerate(snippets):
-        pos += sum(lengths[i * TOK_PER_SNIP: (i * TOK_PER_SNIP ) + len(snip)]) 
-        snip_lengths.append(pos)
-
-    snips_scores = [] #score of each snippet according to calc_score
-    for snip in snippets:
-        score = calc_score(snip)    
-        snips_scores.append(score)
-
-    for j,s in enumerate(snips_scores):
-        if(s == float('inf')): #Checking the case if an inf value exists in snips_scores list
-            snips_scores[j] = 0
-    for j,s in enumerate(snips_scores):
-        if(s == 0):
-            snips_scores[j] = max(snips_scores) #if yes, set inf value to be equal with the max value of snips_scores list
-
-    snip_enc = [] #Encoding of snippets. So the first snippet is represented by zero, the second snippet is represented by one etc 
+    print('Step 3: Encoding of snippets...\n')
+    # Encoding of snippets: the first snippet is represented by zero, the second snippet is represented by one etc 
+    snippetsEncoded = [] 
     for j,_ in enumerate(snippets):
-        snip_enc.append(j)
-    #print(snip_enc)
-
-    code_tok_enc = []#Encoding of tokens. So the first token of the file is represented by zero, the second is represented by one etc
+        snippetsEncoded.append(j)
+    # Encoding of tokens: so the first token of the file is represented by zero, the second is represented by one etc
+    # We perform a different kind of encoding than the one that we performed before
+    # With this encoding, we just obtain the position of each token in the source code file
+    codeTokensEnc = []
     for j,_ in enumerate(tokens):
-        code_tok_enc.append(j)
-    #print(code_tok_enc)
+        codeTokensEnc.append(j)
+    # Pair each encoded snippet with the its corresponding score 
+    snippetsScoresEnc = {}
+    for j in zip(snippetsEncoded,snippetsScores):
+        snippetsScoresEnc.update([j])
 
-    snip_scores_enc = {}#Pairing of each encoded snippet with the its corresponding score 
-    for j in zip(snip_enc,snips_scores):
-        snip_scores_enc.update([j])
-    #print(snip_scores_enc)
-
-    snip_grams_enc = list(ngrams(code_tok_enc,TOK_PER_SNIP))
-    #print(snip_grams_enc)
-
-    num_token_occur = {}#number of each token's occurences 
+    print('Step 4: Making a dictionary that will contain each token and its number of occurence in the source code file...\n')
+    # Make n-grams that will consist of TOK_PER_SNIP tokens each.
+    # Each gram will not contain each token itself, but the token's position.
+    # Example: possible ngram: [0,1,2,3,4,5,...] --> contains the first token of the source code file, the second token etc
+    snip_grams_enc = list(ngrams(codeTokensEnc,tokensPerSnippet))
+    # We are making a dict named num_token_occur that will contain the number of occurences of each token in the source code file
+    numTokenOccur = {}
+    # for each code shippet we made previously
     for snip in snip_grams_enc:
-        for j in snip:
-            if(j in list(num_token_occur.keys())):
-                num_token_occur[j]+=1
+        # for each token in this specifc code snippet
+        for token_pos in snip:
+            # if we already have this token in our dictionary
+            if(token_pos in list(numTokenOccur.keys())):
+                # add one more occurence on its number of occurences
+                numTokenOccur[token_pos]+=1
             else:
-                num_token_occur.update([(j,1)])
-    #print(num_token_occur)
+                # otherwise, add a new entry on the dictionary
+                numTokenOccur.update([(token_pos,1)])
 
-    token_occur = {}#key---> each token encoded , value---> a list tha consists of the windows(20-token grams) that this token is part of
+    print('Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...\n')
+    # key---> each token encoded 
+    # value---> a list that consists of the windows(20-token grams) that this token is part of
+    tokenOccur = {}
     for j,snip in enumerate(snip_grams_enc):
         for k in snip:
-            if(k in list(token_occur.keys())):
-                token_occur[k].append(j)
+            if(k in list(tokenOccur.keys())):
+                tokenOccur[k].append(j)
             else:
-                token_occur.update([(k,[j])])
-    #print(token_occur)
+                tokenOccur.update([(k,[j])])
 
-    score_per_token = {} #key---> each token encode, value---> score(entropy) of this token
-    for key in list(token_occur.keys()):
-        curr_tok_score = 0
-        for snip in token_occur[key]:
-            curr_tok_score += snip_scores_enc[snip]
-        score = curr_tok_score/len(token_occur[key])
-        score = truncate(score,2)
-        score_per_token.update([(key,score)])
-    #print(score_per_token)
+    print('Step 6: Calculation of each token score...')
+    tokenScores = sdf.tokensScoreCalculation(tokenOccur,snippetsScoresEnc)
 
-    return list(score_per_token.values()),snips_scores,file_score,snippets,snip_lengths
+    return tokenScores, snippetsScores, fileScore, snippets, snippetsLengths
 
 
-def error_detection(code,thresh): #Returns the tokens with higher score than the THRESHOLD
-    THRESHOLD = thresh
-
-    poss_err_tokens = {}
-    s_tokens,_,_,_,_ = get_score(code)
-    for key in list(s_tokens.keys()):
-        if(s_tokens.get(key,None) >= THRESHOLD):
-            poss_err_tokens.update([(key,s_tokens.get(key,None))])
-
-    [tokens,lengths] = tokenize(code)
-
-    len_sum = [1]
-    for j in range(0,len(lengths)):
-        len_sum.append(len_sum[j]+lengths[j])
-
-    token_len = {}
-    for j,leng in enumerate(len_sum):
-        token_len.update([(j,leng)])
-
-    err_tokens_info = []
-    for key in list(poss_err_tokens.keys()):
-        for k in list(token_len.keys()):
-            if(key == k):
-                err_tokens_info.append((key,tokens[key],token_len.get(key,None),s_tokens.get(key,None)))
-    return err_tokens_info
 
 
-def error_detection_v2(code,topn): #Returns the top 10 tokens with the highest score
-    n = topn
-
-    s_tokens,_,_ = get_score(code)
-    sort_s_tokens = sorted(s_tokens.items(),key = lambda x:x[1],reverse = True)
-    sort_s_tokens = dict(sort_s_tokens)
-
-    i = 1
-    poss_err_tokens = {}
-    for key in list(sort_s_tokens.keys()):
-        if(i<= n):
-            poss_err_tokens.update([(key,sort_s_tokens.get(key,None))])
-            i+=1
-        else:
-            break
-
-    [tokens,lengths] = tokenize(code)
-
-    len_sum = [1]
-    for j in range(0,len(lengths)):
-        len_sum.append(len_sum[j]+lengths[j])
-
-    token_len = {}
-    for j,leng in enumerate(len_sum):
-        token_len.update([(j,leng)])
-
-    err_tokens_info = []
-    for key in list(poss_err_tokens.keys()):
-        for k in list(token_len.keys()):
-            if(key == k):
-                err_tokens_info.append((key,tokens[key],token_len.get(key,None),poss_err_tokens.get(key,None)))
-    
-    return err_tokens_info
