@@ -4,7 +4,7 @@ from datetime import datetime
 sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction')
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 from tensorflow import keras
-from tokenizer import tokenize
+from utils.tokenizer import tokenize
 from utils.helper_func import truncate
 import numpy as np
 import S4_Score_Detect

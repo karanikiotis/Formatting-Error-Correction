@@ -1,4 +1,4 @@
-from Scripts.tokenizer import tokenize
+from utils.tokenizer import tokenize
 from collections import Counter
 from itertools import chain
 from nltk.util import ngrams

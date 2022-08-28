@@ -16,7 +16,7 @@ import sys
 sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction')
 import pickle
 
-from Scripts.tokenizer import tokenize
+from utils.tokenizer import tokenize
 from nltk.util import everygrams
 from nltk.lm.preprocessing import padded_everygram_pipeline
 from nltk.lm import KneserNeyInterpolated

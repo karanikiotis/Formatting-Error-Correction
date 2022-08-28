@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 import pdb
 from utils.helper_func import truncate
-from Scripts.tokenizer import tokenize
+from utils.tokenizer import tokenize
 from nltk.util import ngrams
 from nltk.lm.preprocessing import pad_both_ends 
 from utils import Score_Detect_Functions as sdf
