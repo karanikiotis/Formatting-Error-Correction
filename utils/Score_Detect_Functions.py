@@ -1,8 +1,12 @@
 import pickle
+import sys
 from nltk.util import ngrams
 from nltk.lm.preprocessing import pad_both_ends
+sys.path.insert(0,'/mnt/c/CodeRepository/Formatting-Error-Correction')
 from utils.helper_func import truncate
-from numba import jit
+
+from utils import tokenizer
+
 
 # A list that contains all the tokens that can possibly appear on a source code file
 # This list of unique tokens is the vocabulary 
@@ -12,24 +16,29 @@ vocabulary = ["<start>","<end>","<eos>","<tab>","<spacetab>","<dot>","<comma>","
                     "<greater_than>","<quest>","<back_slash>","<keyword>","<literal>","<lit>","<word>","<space>",
                     "<com>","<slash>","<string>","<char>","<number>","<unk>"]
 
+vocabEncoded = dict((c, i) for i, c in enumerate(vocabulary))
 
-def calcScore(snip,lm): 
+def calcScore(snip, lm): 
     """
     Description:
         A function that calculates the score of a code snippet regarding its formattion using entropy metric
     Inputs: 
-        snip (List of integers) : A list of names of the tokens that the code snippet consists of
+        snip (List of integers) : A list of ID's of the tokens that the code snippet consists of
         lm () :
     Outputs:
         score (float) : Score of the code snippet
     """
+    #### Fix in order to support both String and encoded tokens as fixes
+    if(type(snip) is str):
+        tokens,_ = tokenizer.tokenize(snip)
+        snip = [vocabEncoded[x] for x in tokens]
     # Snippet's tokens are encoded
     # So, we make a new list called snip_transf that will include the names of the tokens instead of their encoded values
     snipTransf = []
     for i in snip:
         snipTransf.append(vocabulary[i])
     # Pad both the start and the end of the tokens list in order to signify the start and the end of the code snippet
-    snipPadded = list(pad_both_ends(snipTransf,n=10))
+    snipPadded = list(pad_both_ends(snipTransf, n=10))
     # Formattion of 10-grams
     snipFinal = list(ngrams(snipPadded,10))
     # Using entropy metric to score the code snippet regarding its formattion
@@ -38,13 +47,23 @@ def calcScore(snip,lm):
 
 
 def ngramModelImport(path, filename):
-    finalPath = path + '\\' + filename 
+    """
+    Description:
+        
+    Inputs: 
+        path ()
+        filename ()
+    Outputs:
+        lm () : 
+    """
+
+    finalPath = path + '/' + filename 
     with open(finalPath, "rb") as fp:
         lm = pickle.load(fp)
     return lm 
 
 
-def snippetLengthCalculation(snippets,tokensLength,tokensPerSnip):
+def snippetLengthCalculation(snippets, tokensLength, tokensPerSnip):
     """
     Description:
         
@@ -62,7 +81,7 @@ def snippetLengthCalculation(snippets,tokensLength,tokensPerSnip):
     return snipLengths
 
 
-def snippetsScoreCalculation(snippets,lm):
+def snippetsScoreCalculation(snippets, lm):
     """
     Description:
 
@@ -73,11 +92,13 @@ def snippetsScoreCalculation(snippets,lm):
     """
 
     snipsScores = [] 
+    numOfIterations = 0
     for snip in snippets:
         # Calculate score for the current code snippet
         score = calcScore(snip,lm)    
         # Append the score to the list
         snipsScores.append(score)
+        numOfIterations += 1
     for j,s in enumerate(snipsScores):
         # Checking the case if an inf value exists in snips_scores list
         # In this case, we set this value equal to the max score that appeared in our snip_score list.
@@ -85,10 +106,11 @@ def snippetsScoreCalculation(snippets,lm):
         # Disclaimer: As entropy is getting bigger values, this means a worse formattion score.
         if(s == float('inf')): 
             snipsScores[j] = max(snipsScores)
+    print(f'Step 2: Total number of iterations(snippetsScoreCalculation) ---- {numOfIterations} ----' )
     return snipsScores
 
 
-def tokensScoreCalculation(tokenOccur,snipScoresEnc):
+def tokensScoreCalculation(tokenOccur, snipScoresEnc):
     """
     Description:
 
@@ -99,7 +121,6 @@ def tokensScoreCalculation(tokenOccur,snipScoresEnc):
     Outputs:
         tokensScores ():
     """
-
     scorePerToken = {}
     for key in list(tokenOccur.keys()):
         curr_tok_score = 0
@@ -113,7 +134,35 @@ def tokensScoreCalculation(tokenOccur,snipScoresEnc):
     return tokensScores
 
 
-def errorDetectionThresh(code,thresh): #Returns the tokens with higher score than the THRESHOLD
+def tokensEncode(tokens, tokensMap):
+    """
+    Description:
+
+    Inputs:
+
+    Outputs
+    """
+    # Encode tokens. Each token of the source code will be represent by a positive integer value
+    tokensEnc = [tokensMap[x] for x in tokens]
+    return tokensEnc
+
+
+def gramsFormationStep(tokensEncoded, tokensPerSnippet, step):
+    """
+    Description:
+
+    Inputs:
+
+    Outputs
+    """
+    snips = []
+    for idx in range(0, len(tokensEncoded) - tokensPerSnippet + step, step):
+        snips.append(tokensEncoded[idx : idx + tokensPerSnippet])
+    return snips
+
+
+
+def errorDetectionThresh(code, thresh): #Returns the tokens with higher score than the THRESHOLD
     """
     Description:
 
@@ -132,7 +181,7 @@ def errorDetectionThresh(code,thresh): #Returns the tokens with higher score tha
         if(s_tokens.get(key,None) >= THRESHOLD):
             poss_err_tokens.update([(key,s_tokens.get(key,None))])
 
-    [tokens,lengths] = tokenize(code)
+    [tokens,lengths] = tokenizer.tokenize(code)
 
     len_sum = [1]
     for j in range(0,len(lengths)):
@@ -150,7 +199,7 @@ def errorDetectionThresh(code,thresh): #Returns the tokens with higher score tha
     return err_tokens_info
 
 
-def errorDetectionTopN(code,topn): #Returns the top 10 tokens with the highest score
+def errorDetectionTopN(code, topn): #Returns the top 10 tokens with the highest score
 
     """
     Description:
@@ -176,7 +225,7 @@ def errorDetectionTopN(code,topn): #Returns the top 10 tokens with the highest s
         else:
             break
 
-    [tokens,lengths] = tokenize(code)
+    [tokens,lengths] = tokenizer.tokenize(code)
 
     len_sum = [1]
     for j in range(0,len(lengths)):

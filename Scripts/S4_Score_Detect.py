@@ -1,65 +1,66 @@
 from stat import SF_APPEND
 import numpy as np
-import pickle
-import pdb
-from utils.helper_func import truncate
-from utils.tokenizer import tokenize
+import time 
+import datetime
 from nltk.util import ngrams
-from nltk.lm.preprocessing import pad_both_ends 
 from utils import Score_Detect_Functions as sdf
+import S7_Parameters as Params
+import debugpy
 
-tokens_available = ["<start>","<end>","<eos>","<tab>","<spacetab>","<dot>","<comma>","<semicolon>","<colon>","<exclamation>",
-                    "<at>","<hash>","<dollar>","<perc>","<caret>","<and>","<power>","<open_par>","<close_par>","<minus>",
-                    "<plus>","<equal>","<open_bracket>","<close_bracket>","<open_curly>","<close_curly>","<less_than>",
-                    "<greater_than>","<quest>","<back_slash>","<keyword>","<literal>","<lit>","<word>","<space>",
-                    "<com>","<slash>","<string>","<char>","<number>","<unk>"]
-d = dict((c, i) for i, c in enumerate(tokens_available))
+# debugpy.log_to('C:\CodeRepository\Formatting-Error-Correction\Logs')
+# debugpy.listen(5678)
+# print('Debugging Session\n')
+# debugpy.wait_for_client()
 
-def ngramScore(code):
+
+
+def ngramScore(code,tokens,lengths):
     """
     Description:
+        # For each one of 20-token snippets, we are going to calculate its score
+        # Next, in order to calculate the score for each token, we are going to
+        # see in which snippets, each token belongs to.
+        # Each token's score will be the mean of the scores of the code snippets where it belongs to
 
     Inputs:
         code () :
 
     Outputs:
-        tokenScoreS () :
+        tokenScores () :
         snippetsScores () :
         fileScore () :
         snippets () :
         snippetsLengths () :
     """
-    
+    funcStartTime = time.time()
     # We have trained a 10-gram model that will be used for code snippet scoring
     # Load 10-gram model
-    lm = sdf.ngramModelImport(r'C:\CodeRepository\Formatting-Error-Correction\10-Gram Model','10_gram_model_v2.p')
-
-    # For each one of 20-token snippets, we are going to calculate its score
-    # Next, in order to calculate the score for each token, we are going to
-    # see in which snippets, each token belongs to.
-    # Each token's score will be the mean of the scores of the code snippets where it belongs to
-
-    # TOK_PER_SNIP represents the number of tokens that its code snippet will be consisted of 
-    tokensPerSnippet = 20 
-    # Tokenize code
-    print('Step 0: Source code file tokenization...\n')
-    [tokens,lengths] = tokenize(code)
-    # Encode tokens. Each token of the source code will be represent by a positive integer value
-    tokens = [d[x] for x in tokens]
-    # Calculate the score of the whole source code file regarding its formattion
-    print('Step 0.1: Source code file scoring...\n')
-    fileScore = sdf.calcScore(tokens,lm)
-    #pdb.set_trace()
+    lm = sdf.ngramModelImport(r'/mnt/c/CodeRepository/Formatting-Error-Correction/10_Gram_Model','10_gram_model_v2.p')
+    #Encode tokens using tokensMapping dictionary in order to be represented as integer numbers
+    tokensEncoded = sdf.tokensEncode(tokens, Params.tokensMapping)
     # Break source code file into snippets (ngrams) that will consist of TOK_PER_SNIP tokens
-    snippets = list(ngrams(tokens,tokensPerSnippet))
+    snippets = sdf.gramsFormationStep(tokensEncoded, Params.TOK_PER_SNIP, 3)
 
-    print('Step 1: Snippets length calculation...\n')
-    snippetsLengths = sdf.snippetLengthCalculation(snippets,lengths,tokensPerSnippet)
+    # Calculate the score of the whole source code file regarding its formattion
+    print('Step 0.1: Source code file scoring...')
+    start_time = time.time()
+    fileScore = sdf.calcScore(tokensEncoded,lm)
+    print("Step 0.1: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
 
-    print('Step 2: Snippets score calculation using entropy metric...\n')
-    snippetsScores = sdf.snippetsScoreCalculation(snippets,lm)
 
-    print('Step 3: Encoding of snippets...\n')
+    print('Step 1: Snippets length calculation...')
+    start_time = time.time()
+    snippetsLengths = sdf.snippetLengthCalculation(snippets, lengths, Params.TOK_PER_SNIP)
+    print("Step 1: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
+
+
+    print('Step 2: Snippets score calculation using entropy metric...')
+    start_time = time.time()
+    snippetsScores = sdf.snippetsScoreCalculation(snippets, lm)
+    print("Step 2: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
+
+    print('Step 3: Encoding of snippets...')
+    start_time = time.time()
     # Encoding of snippets: the first snippet is represented by zero, the second snippet is represented by one etc 
     snippetsEncoded = [] 
     for j,_ in enumerate(snippets):
@@ -68,18 +69,21 @@ def ngramScore(code):
     # We perform a different kind of encoding than the one that we performed before
     # With this encoding, we just obtain the position of each token in the source code file
     codeTokensEnc = []
-    for j,_ in enumerate(tokens):
+    for j,_ in enumerate(tokensEncoded):
         codeTokensEnc.append(j)
     # Pair each encoded snippet with the its corresponding score 
     snippetsScoresEnc = {}
     for j in zip(snippetsEncoded,snippetsScores):
         snippetsScoresEnc.update([j])
+    print("Step 3: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
 
-    print('Step 4: Making a dictionary that will contain each token and its number of occurence in the source code file...\n')
+
+    print('Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...')
+    start_time = time.time()
     # Make n-grams that will consist of TOK_PER_SNIP tokens each.
-    # Each gram will not contain each token itself, but the token's position.
+    # Each gram will not contain each token itself, but the token's index.
     # Example: possible ngram: [0,1,2,3,4,5,...] --> contains the first token of the source code file, the second token etc
-    snip_grams_enc = list(ngrams(codeTokensEnc,tokensPerSnippet))
+    snip_grams_enc = sdf.gramsFormationStep(codeTokensEnc, Params.TOK_PER_SNIP, 3)
     # We are making a dict named num_token_occur that will contain the number of occurences of each token in the source code file
     numTokenOccur = {}
     # for each code shippet we made previously
@@ -93,8 +97,11 @@ def ngramScore(code):
             else:
                 # otherwise, add a new entry on the dictionary
                 numTokenOccur.update([(token_pos,1)])
+    print("Step 4: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
 
-    print('Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...\n')
+
+    print('Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...')
+    start_time = time.time()
     # key---> each token encoded 
     # value---> a list that consists of the windows(20-token grams) that this token is part of
     tokenOccur = {}
@@ -104,9 +111,19 @@ def ngramScore(code):
                 tokenOccur[k].append(j)
             else:
                 tokenOccur.update([(k,[j])])
+    print("Step 5: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
+
 
     print('Step 6: Calculation of each token score...')
+    start_time = time.time()
+    #breakpoint()
     tokenScores = sdf.tokensScoreCalculation(tokenOccur,snippetsScoresEnc)
+    print("Step 6: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
+
+
+    print("Total Time of scoring(seconds): ---- %s seconds ---" % round( (time.time() - funcStartTime), 4))
+    print("Total Time of scoring(hours:mins:seconds): ---- %s ---\n" % str(datetime.timedelta(seconds = round( (time.time() - funcStartTime), 4))))
+    # breakpoint()
 
     return tokenScores, snippetsScores, fileScore, snippets, snippetsLengths
 
