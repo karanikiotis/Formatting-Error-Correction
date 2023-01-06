@@ -1,0 +1,59 @@
+
+
+Starting Time:03:28:01
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 10.676 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 75 ----
+Step 2: ---- 53.4408 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0035 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0034 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0003 seconds ---
+
+Total Time of scoring(seconds): ---- 65.6471 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:05.647100 ---
+
+Score before any fix: 1.1633757861113252
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 73.127 seconds ---
+
+New_score of fix 0: 0.8806404834381274
+New_score of fix 1: 1.0943486114047725
+New_score of fix 2: 1.151876453339473
+New_score of fix 3: 1.1357662663281995
+
+
+End Time:03:29:33
+
+Total execution time(hours:mins:seconds): ---- 0:03:21.901000 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/57.txt

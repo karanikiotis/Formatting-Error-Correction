@@ -1,0 +1,61 @@
+
+
+Starting Time:12:02:51
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 160.5788 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0005 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 1199 ----
+Step 2: ---- 1067.6841 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0014 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.8347 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.8172 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0054 seconds ---
+
+Total Time of scoring(seconds): ---- 1231.6789 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:20:31.678900 ---
+
+Score before any fix: 0.8017633178651601
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 1221.02 seconds ---
+
+New_score of fix 0: 0.7823609068314882
+New_score of fix 1: 0.8001394986744604
+New_score of fix 2: 0.8012784807855762
+New_score of fix 3: 0.8001394986744604
+New_score of fix 4: 0.8012784807855762
+
+
+End Time:12:27:44
+
+Total execution time(hours:mins:seconds): ---- 1:00:00.923500 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/295.txt

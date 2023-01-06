@@ -1,0 +1,58 @@
+
+
+Starting Time:10:48:24
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 16.2252 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0001 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 146 ----
+Step 2: ---- 96.7489 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0119 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0114 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0004 seconds ---
+
+Total Time of scoring(seconds): ---- 114.6594 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:54.659400 ---
+
+Score before any fix: 0.7190964958498993
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 186.1709 seconds ---
+
+New_score of fix 0: 0.7102980200480344
+New_score of fix 1: 0.65587850887705
+New_score of fix 2: 0.7136556258517961
+New_score of fix 3: 0.7104522762270492
+New_score of fix 4: 0.719050748923457
+New_score of fix 5: 0.5726779340222492
+
+
+End Time:10:50:53
+
+Total execution time(hours:mins:seconds): ---- 0:07:18.241000 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/136.txt

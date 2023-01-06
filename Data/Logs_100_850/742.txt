@@ -1,0 +1,62 @@
+
+
+Starting Time:02:27:52
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 15.8672 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0001 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 104 ----
+Step 2: ---- 79.6914 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.006 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.006 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0003 seconds ---
+
+Total Time of scoring(seconds): ---- 97.0171 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:37.017100 ---
+
+Score before any fix: 1.1222035405049589
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 54.1027 seconds ---
+
+New_score of fix 0: 0.8822167438835148
+New_score of fix 1: 1.1097170277355461
+New_score of fix 2: 1.1097170277355461
+
+
+End Time:02:29:51
+
+Total execution time(hours:mins:seconds): ---- 0:03:32.442100 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/742.txt

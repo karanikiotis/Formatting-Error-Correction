@@ -1,0 +1,58 @@
+
+
+Starting Time:11:25:59
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 2.8858 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 19 ----
+Step 2: ---- 12.4292 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0005 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0003 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0001 seconds ---
+
+Total Time of scoring(seconds): ---- 17.3006 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:17.300600 ---
+
+Score before any fix: 1.380070446386296
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 28.3375 seconds ---
+
+New_score of fix 0: 0.5299341869410504
+New_score of fix 1: 1.0184358123688924
+New_score of fix 2: 0.5807810956455657
+New_score of fix 3: 1.379241415221777
+New_score of fix 4: 1.3753511493341888
+
+
+End Time:11:26:25
+
+Total execution time(hours:mins:seconds): ---- 0:01:09.760600 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/459.txt

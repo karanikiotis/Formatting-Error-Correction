@@ -1,0 +1,58 @@
+
+
+Starting Time:23:33:41
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 13.6718 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0001 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 122 ----
+Step 2: ---- 94.3429 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0082 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0085 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0004 seconds ---
+
+Total Time of scoring(seconds): ---- 109.52 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:49.520000 ---
+
+Score before any fix: 0.9582445627315439
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 108.4876 seconds ---
+
+New_score of fix 0: 0.8883127612501264
+New_score of fix 1: 0.8883127612501264
+
+
+End Time:23:35:57
+
+Total execution time(hours:mins:seconds): ---- 0:04:34.284700 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/536.txt

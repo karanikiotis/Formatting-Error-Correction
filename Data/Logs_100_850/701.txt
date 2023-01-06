@@ -1,0 +1,57 @@
+
+
+Starting Time:20:34:12
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 14.586 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 99 ----
+Step 2: ---- 72.9119 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0119 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0121 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0007 seconds ---
+
+Total Time of scoring(seconds): ---- 88.9995 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:28.999500 ---
+
+Score before any fix: 0.8398406789280091
+
+Step 7: Fixing errorneous token ...
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 91.6192 seconds ---
+
+New_score of fix 0: 0.632453107974605
+
+
+End Time:20:36:03
+
+Total execution time(hours:mins:seconds): ---- 0:03:35.177200 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/701.txt

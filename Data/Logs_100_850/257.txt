@@ -1,0 +1,58 @@
+
+
+Starting Time:08:22:34
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 2.9439 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 23 ----
+Step 2: ---- 14.6061 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0005 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0005 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0001 seconds ---
+
+Total Time of scoring(seconds): ---- 19.1601 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:19.160100 ---
+
+Score before any fix: 1.4094429996116318
+
+Step 7: Fixing errorneous token ...
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 28.3232 seconds ---
+
+New_score of fix 0: 0.5570833506935545
+New_score of fix 1: 1.379680266857475
+New_score of fix 2: 1.4082367895215442
+New_score of fix 3: 1.3511331575818557
+
+
+End Time:08:23:02
+
+Total execution time(hours:mins:seconds): ---- 0:01:09.551700 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/257.txt

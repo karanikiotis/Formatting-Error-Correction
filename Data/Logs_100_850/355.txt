@@ -1,0 +1,58 @@
+
+
+Starting Time:19:08:09
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 9.376 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 83 ----
+Step 2: ---- 56.4659 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.005 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0048 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0003 seconds ---
+
+Total Time of scoring(seconds): ---- 67.506 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:07.506000 ---
+
+Score before any fix: 1.3690599356960977
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 102.1161 seconds ---
+
+New_score of fix 0: 1.3407243451107638
+New_score of fix 1: 1.283430426008058
+New_score of fix 2: 1.2833308863453485
+New_score of fix 3: 1.3655038889451838
+New_score of fix 4: 1.2002128535276513
+
+
+End Time:19:09:39
+
+Total execution time(hours:mins:seconds): ---- 0:04:02.725500 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/355.txt

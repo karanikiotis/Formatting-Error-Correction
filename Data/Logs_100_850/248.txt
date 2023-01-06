@@ -1,0 +1,58 @@
+
+
+Starting Time:07:49:09
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 14.9644 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0001 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 123 ----
+Step 2: ---- 80.9838 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0089 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0084 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0004 seconds ---
+
+Total Time of scoring(seconds): ---- 97.6278 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:01:37.627800 ---
+
+Score before any fix: 0.8799242869790957
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 117.2177 seconds ---
+
+New_score of fix 0: 0.7164594643478472
+New_score of fix 1: 0.7207540476323339
+New_score of fix 2: 0.8161585902869989
+
+
+End Time:07:51:16
+
+Total execution time(hours:mins:seconds): ---- 0:04:48.157900 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/248.txt

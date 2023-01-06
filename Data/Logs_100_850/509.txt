@@ -1,0 +1,58 @@
+
+
+Starting Time:19:08:56
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 67.2595 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0009 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 589 ----
+Step 2: ---- 407.576 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0009 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.1794 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.1664 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.002 seconds ---
+
+Total Time of scoring(seconds): ---- 477.1757 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:07:57.175800 ---
+
+Score before any fix: 0.9246334035039853
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 626.0736 seconds ---
+
+New_score of fix 0: 0.9196538695556589
+New_score of fix 1: 0.9229617048142696
+New_score of fix 2: 0.9196538695556589
+New_score of fix 3: 0.9229617048142696
+
+
+End Time:19:19:03
+
+Total execution time(hours:mins:seconds): ---- 0:25:11.776600 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/509.txt

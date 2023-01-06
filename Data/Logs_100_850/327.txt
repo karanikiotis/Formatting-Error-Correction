@@ -1,0 +1,58 @@
+
+
+Starting Time:16:27:39
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 6.2709 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 56 ----
+Step 2: ---- 38.6004 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0024 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0025 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0002 seconds ---
+
+Total Time of scoring(seconds): ---- 46.476 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:46.476000 ---
+
+Score before any fix: 1.1742032111145357
+
+Step 7: Fixing errorneous token ...
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 105.6381 seconds ---
+
+New_score of fix 0: 1.073120127752244
+New_score of fix 1: 1.075441911812365
+New_score of fix 2: 1.0181098077597153
+New_score of fix 3: 1.0907142994687302
+New_score of fix 4: 1.1703760114607917
+New_score of fix 5: 1.1684937487941367
+New_score of fix 6: 1.1128623392182895
+New_score of fix 7: 0.9796900375647086
+New_score of fix 8: 1.1443028663560129
+New_score of fix 9: 1.1703760114607917
+
+
+End Time:16:28:41
+
+Total execution time(hours:mins:seconds): ---- 0:03:59.270100 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/327.txt

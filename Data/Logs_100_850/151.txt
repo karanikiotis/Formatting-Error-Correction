@@ -1,0 +1,61 @@
+
+
+Starting Time:14:07:03
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 35.4066 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0002 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 330 ----
+Step 2: ---- 222.3271 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0002 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0542 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0541 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0015 seconds ---
+
+Total Time of scoring(seconds): ---- 259.5405 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:04:19.540500 ---
+
+Score before any fix: 0.7621889794419496
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 366.8656 seconds ---
+
+New_score of fix 0: 0.7367938815059234
+New_score of fix 1: 0.7353072401157754
+New_score of fix 2: 0.7486864770776196
+New_score of fix 3: 0.7593186711250591
+New_score of fix 4: 0.7583192948854003
+New_score of fix 5: 0.7251210411247908
+New_score of fix 6: 0.7581531458705274
+New_score of fix 7: 0.7593186711250591
+
+
+End Time:14:12:39
+
+Total execution time(hours:mins:seconds): ---- 0:16:41.156200 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/151.txt

@@ -1,0 +1,58 @@
+
+
+Starting Time:02:39:51
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 4.2458 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 37 ----
+Step 2: ---- 27.9529 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0013 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.001 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0002 seconds ---
+
+Total Time of scoring(seconds): ---- 33.8843 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:33.884300 ---
+
+Score before any fix: 1.3742478609595514
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 44.8369 seconds ---
+
+New_score of fix 0: 0.8914945759872659
+New_score of fix 1: 1.217744981093105
+New_score of fix 2: 1.3634630846978109
+New_score of fix 3: 1.3231287476722808
+
+
+End Time:02:40:36
+
+Total execution time(hours:mins:seconds): ---- 0:01:49.338500 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/199.txt

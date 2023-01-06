@@ -1,0 +1,57 @@
+
+
+Starting Time:11:35:36
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 8.172 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 53 ----
+Step 2: ---- 39.3417 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0018 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0019 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0002 seconds ---
+
+Total Time of scoring(seconds): ---- 49.1253 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:49.125300 ---
+
+Score before any fix: 0.9242284819359282
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 57.9479 seconds ---
+
+New_score of fix 0: 0.5329664805077078
+New_score of fix 1: 0.8478733037555523
+
+
+End Time:11:36:39
+
+Total execution time(hours:mins:seconds): ---- 0:02:14.791200 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/821.txt

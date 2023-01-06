@@ -1,0 +1,59 @@
+
+
+Starting Time:02:52:43
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 244.3232 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0009 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 1992 ----
+Step 2: ---- 1560.9819 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0021 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 2.053 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 2.0749 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0195 seconds ---
+
+Total Time of scoring(seconds): ---- 1811.9029 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:30:11.902900 ---
+
+Score before any fix: 1.196172916501635
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 2224.1071 seconds ---
+
+New_score of fix 0: 1.183149478465004
+New_score of fix 1: 1.1945680855981284
+New_score of fix 2: 1.195758167869178
+New_score of fix 3: 1.1945680855981284
+New_score of fix 4: 1.195758167869178
+
+
+End Time:03:30:08
+
+Total execution time(hours:mins:seconds): ---- 1:34:59.388500 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/398.txt

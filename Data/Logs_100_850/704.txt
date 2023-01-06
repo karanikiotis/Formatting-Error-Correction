@@ -1,0 +1,59 @@
+
+
+Starting Time:20:47:28
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 74.1763 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0003 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 601 ----
+Step 2: ---- 447.5395 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0004 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.1731 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.1727 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.002 seconds ---
+
+Total Time of scoring(seconds): ---- 523.8309 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:08:43.830900 ---
+
+Score before any fix: 1.0633193720136986
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 793.0126 seconds ---
+
+New_score of fix 0: 1.0205785664543525
+New_score of fix 1: 1.0284693110576837
+New_score of fix 2: 1.0459695406471898
+New_score of fix 3: 1.0608572350580536
+New_score of fix 4: 1.0628594866798031
+New_score of fix 5: 1.0566438314165
+New_score of fix 6: 1.0603705322915558
+
+
+End Time:20:58:06
+
+Total execution time(hours:mins:seconds): ---- 0:32:18.086600 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/704.txt

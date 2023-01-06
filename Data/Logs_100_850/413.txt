@@ -1,0 +1,59 @@
+
+
+Starting Time:05:57:07
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 6.4333 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 58 ----
+Step 2: ---- 40.1012 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0001 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0049 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0046 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0004 seconds ---
+
+Total Time of scoring(seconds): ---- 48.1722 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:48.172200 ---
+
+Score before any fix: 1.088037736199157
+
+Step 7: Fixing errorneous token ...
+Fixed code(1) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(2) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Fixed code(3) did not passed the Java parsing test.
+Step 7: ----Total time of fixing (seconds) 80.2531 seconds ---
+
+New_score of fix 0: 0.7243552850422253
+New_score of fix 1: 1.0779434410909117
+New_score of fix 2: 0.7574270826424128
+New_score of fix 3: 0.7355276855327826
+New_score of fix 4: 1.0744570725692788
+New_score of fix 5: 1.07070803079504
+New_score of fix 6: 1.0651906033671872
+
+
+End Time:05:58:11
+
+Total execution time(hours:mins:seconds): ---- 0:03:15.110600 ---
+
+Possible fixed codes saved in folder /mnt/c/CodeRepository/Formatting-Error-Correction/Fixes/413.txt

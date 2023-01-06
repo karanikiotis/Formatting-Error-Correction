@@ -1,0 +1,32 @@
+
+
+Starting Time:06:14:31
+
+
+Step 0.1: Source code file scoring...
+Step 0.1: ---- 0.5115 seconds ---
+
+Step 1: Snippets length calculation...
+Step 1: ---- 0.0 seconds ---
+
+Step 2: Snippets score calculation using entropy metric...
+Step 2: Total number of iterations(snippetsScoreCalculation) ---- 0 ----
+Step 2: ---- 0.0 seconds ---
+
+Step 3: Encoding of snippets...
+Step 3: ---- 0.0 seconds ---
+
+Step 4: Making a dictionary that will contain each token and its number of occurences in the source code file...
+Step 4: ---- 0.0 seconds ---
+
+Step 5: Making a dictionary that will contain each token and a list of the snippets that this token belongs to...
+Step 5: ---- 0.0 seconds ---
+
+Step 6: Calculation of each token score...
+Step 6: ---- 0.0 seconds ---
+
+Total Time of scoring(seconds): ---- 2.0485 seconds ---
+Total Time of scoring(hours:mins:seconds): ---- 0:00:02.048500 ---
+
+Score before any fix: 3.9089238034180513
+
