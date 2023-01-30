@@ -35,7 +35,7 @@ def ngramScore(code,tokens,lengths):
     funcStartTime = time.time()
     # We have trained a 10-gram model that will be used for code snippet scoring
     # Load 10-gram model
-    lm = sdf.ngramModelImport(r'/mnt/c/CodeRepository/Formatting-Error-Correction/10_Gram_Model','10_gram_model_v2.p')
+    lm = sdf.ngramModelImport(Params.path+'10_Gram_Model/','10_gram_model_v2.p')
     #Encode tokens using tokensMapping dictionary in order to be represented as integer numbers
     tokensEncoded = sdf.tokensEncode(tokens, Params.tokensMapping)
     # Break source code file into snippets (ngrams) that will consist of TOK_PER_SNIP tokens
