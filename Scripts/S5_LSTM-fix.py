@@ -6,7 +6,7 @@ import numpy as np
 from datetime import datetime
 import datetime as dt
 from tensorflow import keras
-sys.path.insert(0,'/mnt/c/CodeRepository/Formatting-Error-Correction')
+sys.path.insert(0,r'/Users/Shared/c/CodeRepository/Formatting-Error-Correction/')
 from utils.tokenizer import tokenize
 from utils.helper_func import truncate
 from utils import Score_Detect_Functions as sdf
@@ -14,26 +14,21 @@ import S4_Score_Detect
 import S6_Error_Fixer
 import S7_Parameters as Params
 
-# import debugpy
-# debugpy.listen(5678)
-# print('Debugging Session\n')
-# debugpy.wait_for_client()
-
 scriptStartTime_v2 = time.time()
 scriptStartTime = datetime.now()
 print(f'\n\nStarting Time:{scriptStartTime.strftime("%H:%M:%S")}\n\n')
 
 # Importing LSTM Model
-model_fw = keras.models.load_model("/mnt/c/CodeRepository/Formatting-Error-Correction/LSTM Model/LSTM_emb_dr_double.h5")
+model_fw = keras.models.load_model(Params.path+"LSTM Model/LSTM_emb_dr_double.h5")
 # Importing N-grams Model
-lm = sdf.ngramModelImport("/mnt/c/CodeRepository/Formatting-Error-Correction/10_Gram_Model","10_gram_model_v2.p")
+lm = sdf.ngramModelImport(Params.path+"10_Gram_Model", "10_gram_model_v2.p")
 
 
 d = dict((c, i) for i, c in enumerate(Params.tokensAvailable))
 d_inv = dict((i, c) for i, c in enumerate(Params.tokensAvailable))
 
 file = open(sys.argv[1], "r", encoding = "utf-8")
-fileName = sys.argv[1]
+fileName = sys.argv[1].split('/')[-1]
 code = file.read()
 
 [tokens, lengths] = tokenize(code)
@@ -68,7 +63,7 @@ for i in range(len(tengrams)-1):
     idxOfNextToken.append(tengrams[i+1][9])
 idxOfNextToken = np.asarray(idxOfNextToken) 
 
-curPosition = 1
+curPosition = 0
 # Iterating through each one of the 10-grams.
 for i, testgram in enumerate(tengrams[:-11]):
     
@@ -117,7 +112,6 @@ scores_token_mapped = []
 for i in scores_token:
     scores_token_mapped.append(truncate(np.interp(i,[min_score_token,max_score_token],[1,0]),4))
 
-#breakpoint()
 for i in range(len(errProb)):
     errProb[i] *= 1-scores_token_mapped[i]
     errProb[i] = truncate(errProb[i],4)
@@ -132,7 +126,7 @@ chars_sorted = [x for _,x in sorted(zip(errProb, startPositionsPerToken), revers
 ###########################################
 print('Step 7: Fixing errorneous token ...')
 start_time = time.time()
-#breakpoint()
+
 acc_codes = S6_Error_Fixer.getFixes(code, lm, chars_sorted, fixes_sorted, score_pre)
 print("Step 7: ----Total time of fixing (seconds) %s seconds ---\n" % round( (time.time() - start_time), 4))
 
