@@ -1,17 +1,10 @@
 import javac_parser
-import pdb
+import S7_Parameters as Params
 from S4_Score_Detect import ngramScore
 from utils.Score_Detect_Functions import calcScore
 
 #Java parser
 parser = javac_parser.Java()
-
-#######################
-# Try possible fixes #
-######################
-
-# Trying the fixes on/adjacent to
-# 5 most probable erroneous characters
 
 def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
 
@@ -20,128 +13,107 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
         
     Inputs: 
         code (String): A string that represents the source code file for fixing its formation.
-        lm (): 
-        tokenIdxSorted (List of Integers) : A sorted list of tokens' starting indices of the source code file. The sorting has been performed
-            according to the modified, the modification was done using the scoring mechanism, propabilities of the LSTM model.
-            So, the 1st element of the list is the token ID with the highest propability of being a formation error.
-        fixSorted (List of Lists):
+        lm (): Trained language model.
+        tokenIdxSorted (List of Integers) : A sorted list of token's starting indices. The sorting has been performed
+            according to the modified propabilities of the LSTM model. So, the 1st element of the list is the starting index 
+            of the token, with the highest propability of being a formation error.
+        fixSorted (List of Lists): A sorted list of lists, every one of them contains a possible replacements for each one of the tokens.
+            So, the 1st list contains possible replacements for the token which has the highest propability of being a formation error.
         score (Float): A float number that represents the score, regarding the formation, of the source code file.
     Outputs:
-        acc_codes ()
+        fixedCode ():
     """
-
-    acc_codes = []  # Store all 'fixed' codes that passed parse test
+    # Store all fixed codes that passed parse test
+    fixedCode = []
 
     #1. TRY DELETING THE CHARACTER
-    for tokenID in tokenIdxSorted[:3]:
-        #pdb.set_trace()
-        new_code = code[:tokenID-1] + code[tokenID:]
-        # Check if new code is parsable and improved
-        if not (parser.get_num_parse_errors(new_code)): 
-            if new_code not in acc_codes:
-                score_new = calcScore(new_code, lm)
+    for tokenID in tokenIdxSorted[:Params.numOfCheckedTok]:
+        # Erase errorneous token
+        newCode = code[:tokenID] + code[tokenID + 1:]
+        # Check if new code is parsable
+        if not (parser.get_num_parse_errors(newCode)): 
+            # Check if new code does not belong to the fixes that we have already suggested
+            if newCode not in fixedCode:
+                # Check if new code has better score than the current one
+                score_new = calcScore(newCode, lm)
                 if score_new < score:
-                    acc_codes.append(new_code)
+                    fixedCode.append(newCode)
         else:
-            print(f'Fixed code(1) did not passed the Java parsing test.')
+            print(f'Case 1 -- Delete errorneous token: fixed code did not passed the Java parsing test.')
 
-
+    
     #2. TRY REPLACING THAT CHARACTER WITH POSSIBLE REPLACEMENTS
-    for i, c in enumerate(tokenIdxSorted[:3]):
-        for repl in fixSorted[i]:    
+    for i, c in enumerate(tokenIdxSorted[:Params.numOfCheckedTok]):
+        # For each one of the possible errorneous tokens, try the possible replacements-fixes
+        # The number of tokens that will be checked are defined through numOfCheckedTok
+        # The number of replacements that will be used as possible fixes are defined trough numOfSuggFixes
+        for possRepl in fixSorted[i]:
             # Newline should also try to indentate properly
-            if repl == "\n":
-                char = c
+            if possRepl == "\n":
+                codeIdx = c
                 tabspaces = ""
-                tmp = 0
-                while code[char] != "\n":
-                    if code[char] == " ":
-                        tmp += 1
+                spaceCounter = 0
+                # Iterate until a new line token is detected
+                while code[codeIdx] != "\n":
+                    # Check if the current character is space. If it is, raise the counter by 1. Otherwirse, zero-out the counter
+                    if code[codeIdx] == " ":
+                        spaceCounter += 1
                     else:
-                        tmp = 0
-
-                    if tmp == 4:
+                        spaceCounter = 0
+                    # If four consecutive spaces are detected, indentate by 1 tab and zero out space counter
+                    if spaceCounter == 4:
                         tabspaces += "    "
-                        tmp = 0
-                    char -= 1
+                        spaceCounter = 0
+                    # Reduce index by in order to access the previous character
+                    codeIdx -= 1
 
-                new_code = code[:c - 1] + repl + tabspaces + code[c:]
+                newCode = code[:c] + possRepl + tabspaces + code[c + 1:]
             else:
-                new_code = code[:c - 1] + repl + code[c:]
+                newCode = code[:c] + possRepl + code[c + 1:]
 
-            # Check if new code is parsable and improved
-            if not (parser.get_num_parse_errors(new_code)):
-                if new_code not in acc_codes:
-                    score_new = calcScore(new_code,lm)
+            # Check if new code is parsable
+            if not (parser.get_num_parse_errors(newCode)):
+                # Check if new code does not belong to the fixes that we have already suggested
+                if newCode not in fixedCode:
+                    score_new = calcScore(newCode,lm)
+                    # Check if new code has better score than the current one
                     if score_new < score:
-                        acc_codes.append(new_code)
+                        fixedCode.append(newCode)
             else:
-                print(f'Fixed code(2) did not passed the Java parsing test.')
+                print(f'Case 2 -- Replace errorneous token: fixed code did not passed the Java parsing test.')
 
     #3. TRY APPENDING POSSIBLE REPLACEMENTS BEFORE THAT CHARACTER
-    for i, c in enumerate(tokenIdxSorted[:3]):
+    for i, c in enumerate(tokenIdxSorted[:Params.numOfCheckedTok]):
         for apnd in fixSorted[i]:
             # Newline should also try to indentate properly
             if apnd == "\n":
-                char = c
+                codeIdx = c
                 tabspaces = ""
-                tmp = 0
-
-                while code[char] != "\n":
-                    if code[char] == " ":
-                        tmp += 1
+                spaceCounter = 0
+                # Iterate until a new line token is detected
+                while code[codeIdx] != "\n":
+                    # Check if the current character is space. If it is, raise the counter by 1. Otherwirse, zero-out the counter
+                    if code[codeIdx] == " ":
+                        spaceCounter += 1
                     else:
-                        tmp = 0
-
-                    if tmp == 4:
+                        spaceCounter = 0
+                    # If four consecutive spaces are detected, indentate by 1 tab and zero out space counter
+                    if spaceCounter == 4:
                         tabspaces += "    "
-                        tmp = 0
+                        spaceCounter = 0
+                    # Reduce index by in order to access the previous character
                     char -= 1
-                new_code = code[:c - 1] + apnd + tabspaces + code[c - 1:]
+                newCode = code[:c] + apnd + tabspaces + code[c:]
             else:
-                new_code = code[:c - 1] + apnd + code[c - 1:]
+                newCode = code[:c] + apnd + code[c:]
 
             # Check if new code is parsable and improved
-            if not (parser.get_num_parse_errors(new_code)):
-                if new_code not in acc_codes:
-                    score_new = calcScore(new_code,lm)
+            if not (parser.get_num_parse_errors(newCode)):
+                if newCode not in fixedCode:
+                    score_new = calcScore(newCode,lm)
                     if score_new < score:
-                        acc_codes.append(new_code)
+                        fixedCode.append(newCode)
             else:
-                print(f'Fixed code(3) did not passed the Java parsing test.')
+                print(f'Case 3 -- Append after errorneous token: fixed code did not passed the Java parsing test.')
 
-    return acc_codes
-
-
-def removeChar(code, tokenIdxSorted, score):
-
-    """
-    Description: A function that tries to fix formattion error by removing the token of the source code file 
-        that are highly possible to be a formattion error.
-        
-    Inputs: 
-        code ():
-        charsSorted () :
-        score ()
-    Outputs:
-        acc_codes ()
-    """
-
-    # For the first five tokens which are the most possible to be a formatting error:
-    for c in tokenIdxSorted[:5]:
-        pdb.set_trace()
-        # Remove the corresponding token and form the new source code 
-        new_code = code[:c-1] + code[c:]
-        # Check if the newsource code is parsable using Java Parser
-        if not (parser.get_num_parse_errors(new_code)): 
-            # Check if the new code is a fix that has been already performed
-            if new_code not in acc_codes:
-                # Score new source code, regarding its formattion, using the implemented scoring mechanism
-                score_new = calcScore(new_code, lm)
-                # Check if the new source code has a better score than the old one
-                if score_new < score:
-                    # If yes, add new source code as a possible fix
-                    acc_codes.append(new_code)
-        else:
-            print(f'Fixed code(1) did not passed the Java parsing test.')
-    return acc_codes
+    return fixedCode
