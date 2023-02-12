@@ -58,17 +58,18 @@ errProb = helpFuncs.errProbModif(errProb, tokenScoresMapped)
 # Step 6 : Sorting suggested fixes and possible formating error positions according to errProb in descending order.
 fixesSorted = [x for _,x in sorted(zip(errProb, suggestedFixes), reverse = True)]
 possErrPositions = [x for _,x in sorted(zip(errProb, startPositionsPerToken), reverse = True)]
-print(f'Detected positions as formatting errors: {possErrPositions[:Params.numOfCheckedTok]}\n')
+print(f'Detected positions as possisble formatting errors: {possErrPositions[:Params.numOfCheckedTok]}\n')
 
 # Step 7: Fix detected formattion errors
 print('Step 7: Fixing errorneous token ...\n')
 start_time = time.time()
 fixedCode = S6_Error_Fixing.getFixes(code, lm, possErrPositions, fixesSorted, fileScore)
-print("\nStep 7: ----Total time of fixing (seconds) %s seconds ---\n" % round( (time.time() - start_time), 4))
+print("\nStep 7: Total time of fixing (seconds) ---- %s seconds---\n" % round( (time.time() - start_time), 4))
+print("Step 7: Total Time of fixing(hours:mins:seconds): ---- %s ---\n" % str(dt.timedelta(seconds = round( (time.time() - start_time), 4))))
 
 # Step 8: Write fixed source code files
 helpFuncs.writeFixedCode(fileName,fixedCode)
 
 end_time = datetime.now()
-print(f'\nEnd Time:{end_time.strftime("%H:%M:%S")}\n')
 print("Total execution time(hours:mins:seconds): ---- %s ---\n" % str(dt.timedelta(seconds = round((time.time() - scriptStartTime_v2), 4))))
+print(f'\nEnd Time:{end_time.strftime("%H:%M:%S")}\n')
