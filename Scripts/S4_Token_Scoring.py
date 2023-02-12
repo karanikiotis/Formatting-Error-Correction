@@ -1,14 +1,7 @@
-from stat import SF_APPEND
-import numpy as np
 import time 
 import datetime
 from utils import Score_Detect_Functions as sdf
 import S7_Parameters as Params
-import debugpy
-
-# debugpy.listen(5678)
-# print('Debugging Session\n')
-# debugpy.wait_for_client()
 
 def ngramScore(tokensEncoded,lengths):
     """
