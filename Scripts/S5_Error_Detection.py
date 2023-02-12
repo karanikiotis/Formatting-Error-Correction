@@ -5,11 +5,6 @@ from tensorflow import keras
 from utils.tokenizer import tokenize
 import S7_Parameters as Params
 
-# import debugpy
-# debugpy.listen(5678)
-# print('Debugging Session\n')
-# debugpy.wait_for_client()
-
 def lstmErrorDetection(code):
     """
     Description:
