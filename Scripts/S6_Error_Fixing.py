@@ -2,11 +2,6 @@ import javac_parser
 import S7_Parameters as Params
 from utils.Score_Detect_Functions import calcScore
 
-# import debugpy
-# debugpy.listen(5678)
-# print('Debugging Session\n')
-# debugpy.wait_for_client()
-
 #Java parser
 parser = javac_parser.Java()
 
@@ -34,6 +29,7 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
     fixedScores = []
     #1. TRY DELETING THE CHARACTER
     for tokenID in tokenIdxSorted[:Params.numOfCheckedTok]:
+        # breakpoint()
         # Erase errorneous token
         newCode = code[:tokenID] + code[tokenID + 1:]
         # Check if new code is parsable
@@ -45,10 +41,10 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                 if scoreFixed < score:
                     fixedCode.append(newCode)
                     fixedScores.append(scoreFixed)
-                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with higher score {scoreFixed}.')
+                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
                 else:
                     fixedScores.append(scoreFixed)
-                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
+                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
         else:
             print(f'    Case 1 -- Delete errorneous token: Fixed code did not passed the Java parsing test.')
 
@@ -58,6 +54,7 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
         # For each one of the possible errorneous tokens, try the possible replacements-fixes
         # The number of tokens that will be checked are defined through numOfCheckedTok
         # The number of replacements that will be used as possible fixes are defined trough numOfSuggFixes
+        # breakpoint()
         for possRepl in fixSorted[i]:
             # Newline should also try to indentate properly
             if possRepl == "\n":
@@ -73,12 +70,16 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                         spaceCounter = 0
                     # If four consecutive spaces are detected, indentate by 1 tab and zero out space counter
                     if spaceCounter == 4:
-                        tabspaces += "    "
+                        tabspaces += Params.tabSpace
                         spaceCounter = 0
                     # Reduce index by in order to access the previous character
                     codeIdx -= 1
-
-                newCode = code[:c] + possRepl + tabspaces + code[c + 1:]
+                # We should take into consideration the case when after the detected token, there is a tabspace and we are proposing as fix a newline token.
+                # In this case, we should remove this tabspace and use only the tabspaces we counted.
+                if(code[c:c + 4] == Params.tabSpace):
+                    newCode = code[:c] + possRepl + tabspaces + code[c + 4:]
+                else:
+                    newCode = code[:c] + possRepl + tabspaces + code[c + 1:]
             else:
                 newCode = code[:c] + possRepl + code[c + 1:]
 
@@ -91,15 +92,16 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                     if scoreFixed < score:
                         fixedScores.append(scoreFixed)
                         fixedCode.append(newCode)
-                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with higher score {scoreFixed}.')
+                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
                     else:
                         fixedScores.append(scoreFixed)
-                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
+                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
             else:
                 print(f'    Case 2 -- Replace errorneous token: Fixed code did not passed the Java parsing test.')
 
     #3. TRY APPENDING POSSIBLE REPLACEMENTS BEFORE THAT CHARACTER
     for i, c in enumerate(tokenIdxSorted[:Params.numOfCheckedTok]):
+        # breakpoint()
         for apnd in fixSorted[i]:
             # Newline should also try to indentate properly
             if apnd == "\n":
@@ -115,10 +117,10 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                         spaceCounter = 0
                     # If four consecutive spaces are detected, indentate by 1 tab and zero out space counter
                     if spaceCounter == 4:
-                        tabspaces += "    "
+                        tabspaces += Params.tabSpace
                         spaceCounter = 0
-                    # Reduce index by in order to access the previous character
-                    char -= 1
+                    # Reduce index by 1 in order to access the previous character
+                    codeIdx -= 1
                 newCode = code[:c] + apnd + tabspaces + code[c:]
             else:
                 newCode = code[:c] + apnd + code[c:]
@@ -130,10 +132,10 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                     if scoreFixed < score:
                         fixedCode.append(newCode)
                         fixedScores.append(scoreFixed)
-                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with higher score {scoreFixed}.')
+                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
                     else:
                         fixedScores.append(scoreFixed)
-                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
+                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
             else:
                 print(f'    Case 3 -- Append after errorneous token: Fixed code did not passed the Java parsing test.')
 
