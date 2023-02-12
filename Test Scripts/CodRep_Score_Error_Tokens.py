@@ -3,7 +3,7 @@ sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction')
 import os
 
 from nltk.util import ngrams
-from Scripts.S4_Score_Detect import get_score,calc_score
+from Scripts.S4_Token_Scoring import get_score,calc_score
 from utils.helper_func import truncate
 from Scripts.tokenizer import tokenize
 from utils.CodeRep_Find_Err_Token import find_err_token
