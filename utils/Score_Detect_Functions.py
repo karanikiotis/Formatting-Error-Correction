@@ -35,10 +35,11 @@ def calcScore(snip, lm):
 def ngramModelImport(path, filename):
     """
     Description:
+        A function that is used to import the trained n-gram model. N-gram model is used to score both code's snippets and code's tokens.
 
     Inputs: 
-        path ()
-        filename ()
+        path (String): Absolute path on which the model's files is located.
+        filename (String): Name of the model's file.
 
     Outputs:
         lm (Nltk object) : N-gram language model used to score each snippet.
@@ -73,6 +74,7 @@ def snippetLengthCalculation(snippets, tokensLength, tokensPerSnip):
 def snippetsScoreCalculation(snippets, lm):
     """
     Description:
+        A function that is used to calculate entropy score for each of the snippets that the source code file consists of.
 
     Inputs: 
         snippets (List): A list of lists, each one of them represents a code snippet. Each snippet 
@@ -80,7 +82,7 @@ def snippetsScoreCalculation(snippets, lm):
         lm (Nltk object): N-gram language model used to score each snippet.
 
     Outputs:
-        snipScores ()
+        snipScores (List): A list of the scores for each code's snippet.
 
     """
 
@@ -101,14 +103,15 @@ def snippetsScoreCalculation(snippets, lm):
 def processSnipScores(snippetsScores):
     """
     Description:
-        This function is responsible for preprocessing snippets scores that are produced using entropy metric.
+        This function is responsible for preprocessing snippet's scores, which are produced using entropy metric.
         In case, a score with Inf value is produced we are using the max score between the snippets to replace it.
 
     Inputs: 
         snippetsScores (List): A list of snippets scores produced from snippetsScoreCalculation function
 
     Outputs:
-        snipScores (List): A list of the preprocessed snippets scores.d
+        snipScores (List): A list of the preprocessed snippets scores.
+
     """
 
     # Convert snippetsScores list into a Numpy array.
@@ -126,6 +129,7 @@ def processSnipScores(snippetsScores):
         if(s == float('inf')): 
             snippetsScores[j] = np.max(snippetScoresMask)
     return snippetsScores
+
 
 def tokensScoreCalculation(tokenOccur, snipScoresEnc):
     """
@@ -155,10 +159,15 @@ def tokensScoreCalculation(tokenOccur, snipScoresEnc):
 def tokensEncode(tokens, tokensMap):
     """
     Description:
+        This responsible is responsible for token encoding according to vocabulary. So, the first token in the vocabulary will be 
+            represented by 1, the second one will be represented by 2 etc.
 
     Inputs:
+        tokens (List):
+        tokensMap ():
 
-    Outputs
+    Outputs:
+        tokensEnc (List):
     """
 
     # Encode tokens. Each token of the source code will be represent by a positive integer value
