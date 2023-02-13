@@ -58,7 +58,7 @@ errProb = helpFuncs.errProbModif(errProb, tokenScoresMapped)
 # Step 6 : Sorting suggested fixes and possible formating error positions according to errProb in descending order.
 fixesSorted = [x for _,x in sorted(zip(errProb, suggestedFixes), reverse = True)]
 possErrPositions = [x for _,x in sorted(zip(errProb, startPositionsPerToken), reverse = True)]
-print(f'Detected positions as possisble formatting errors: {possErrPositions[:Params.numOfCheckedTok]}\n')
+print(f'Detected positions as possible formatting errors: {possErrPositions[:Params.numOfCheckedTok]}\n')
 
 # Step 7: Fix detected formattion errors
 print('Step 7: Fixing errorneous token ...\n')
