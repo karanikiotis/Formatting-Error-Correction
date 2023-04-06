@@ -20,16 +20,16 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
             So, the 1st list contains possible replacements for the token which has the highest propability of being a formation error.
         score (Float): A float number that represents the score, regarding the formation, of the source code file.
     Outputs:
-        fixedCode (String): A list with strings, each one of them represents fixed code with a different fix. The fixed code has passed Java 
+        fixedCode (List of Strings): A list with strings, each one of them represents fixed code with a different fix. The fixed code has passed Java 
             parsing test and also has lower-better score than the original one.
+        fixedCodeScores (List): A list with the scores of all fixed coded, that passed the Parsing test and also had a lower score than the original one.
     """
     # Store all fixed codes that passed Java parsing test
     fixedCode = []
     # Store all scores of fixed codes that passed Java parsing test
-    fixedScores = []
+    fixedCodeScores = []
     #1. TRY DELETING THE CHARACTER
     for tokenID in tokenIdxSorted[:Params.numOfCheckedTok]:
-        # breakpoint()
         # Erase errorneous token
         newCode = code[:tokenID] + code[tokenID + 1:]
         # Check if new code is parsable
@@ -40,10 +40,9 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                 scoreFixed = calcScore(newCode, lm)
                 if scoreFixed < score:
                     fixedCode.append(newCode)
-                    fixedScores.append(scoreFixed)
+                    fixedCodeScores.append(scoreFixed)
                     print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
                 else:
-                    fixedScores.append(scoreFixed)
                     print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
         else:
             print(f'    Case 1 -- Delete errorneous token: Fixed code did not passed the Java parsing test.')
@@ -54,7 +53,6 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
         # For each one of the possible errorneous tokens, try the possible replacements-fixes
         # The number of tokens that will be checked are defined through numOfCheckedTok
         # The number of replacements that will be used as possible fixes are defined trough numOfSuggFixes
-        # breakpoint()
         for possRepl in fixSorted[i]:
             # Newline should also try to indentate properly
             if possRepl == "\n":
@@ -90,18 +88,16 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                     scoreFixed = calcScore(newCode,lm)
                     # Check if new code has better score than the current one
                     if scoreFixed < score:
-                        fixedScores.append(scoreFixed)
+                        fixedCodeScores.append(scoreFixed)
                         fixedCode.append(newCode)
                         print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
                     else:
-                        fixedScores.append(scoreFixed)
                         print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
             else:
                 print(f'    Case 2 -- Replace errorneous token: Fixed code did not passed the Java parsing test.')
 
     #3. TRY APPENDING POSSIBLE REPLACEMENTS BEFORE THAT CHARACTER
     for i, c in enumerate(tokenIdxSorted[:Params.numOfCheckedTok]):
-        # breakpoint()
         for apnd in fixSorted[i]:
             # Newline should also try to indentate properly
             if apnd == "\n":
@@ -131,12 +127,11 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                     scoreFixed = calcScore(newCode,lm)
                     if scoreFixed < score:
                         fixedCode.append(newCode)
-                        fixedScores.append(scoreFixed)
+                        fixedCodeScores.append(scoreFixed)
                         print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
                     else:
-                        fixedScores.append(scoreFixed)
                         print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
             else:
                 print(f'    Case 3 -- Append after errorneous token: Fixed code did not passed the Java parsing test.')
 
-    return fixedCode
+    return fixedCode, fixedCodeScores
