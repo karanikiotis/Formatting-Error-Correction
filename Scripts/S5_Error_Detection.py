@@ -29,8 +29,8 @@ def lstmErrorDetection(code):
 
     # Append <start> and <end> tokens   
     tokens_enc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] \
-                + [d[x] for x in tokens] \
-                + [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+                 + [d[x] for x in tokens] \
+                 + [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
     for i in range(20):
         # zero length for 20 <start> tokens
@@ -43,7 +43,7 @@ def lstmErrorDetection(code):
     # Holds the error propability acording to LSTM, for the next token of the iterating 20-gram.
     # Next tokens with higher error probabilities are more likely not to be formatted wrongly.
     errProb = [] 
-    suggestedFixes = [] 
+    suggestedFixes = {}
     ngrams = []
     idxOfNextToken = []
 
@@ -72,15 +72,15 @@ def lstmErrorDetection(code):
         # Sort probabilities on descending order. possibleFixes is a list that contains all the possible tokens
         # on descending order. Tokens are represented with their characters.
         possibleFixes = [repl for _,repl in sorted(zip(predictionsLSTM[0], Params.replacements), reverse = True)] 
-        # Keep the tokens with the highest probabilities. These tokens are going to be the suggested fixes. 
-        # The number of tokens that we keep as suggested fixes for the iterating 20-gram, is defined through a parameter called numOfSuggFixes.
-        # So, for each ngram, we are keeping a specific number of tokens as suggested fixes. 
-        topFixesCurGram = possibleFixes[:Params.numOfSuggFixes]
-        suggestedFixes.append(topFixesCurGram)
         # Calculate the starting position of the current token
         curPosition += lengths[i+19]
         # Append the starting position of the current token to a list that holds the starting positions of each token
         startPositionsPerToken.append(curPosition)
+        # Keep the tokens with the highest probabilities. These tokens are going to be the suggested fixes. 
+        # The number of tokens that we keep as suggested fixes for the iterating 20-gram, is defined through a parameter called numOfSuggFixes.
+        # So, for each ngram, we are keeping a specific number of tokens as suggested fixes. 
+        topFixesCurGram = possibleFixes[:Params.numOfSuggFixes]
+        suggestedFixes.update({curPosition:topFixesCurGram})
         # Calculation of error probability according to LSTM, for the next token of the iterating 20-gram.
         # So, next tokens with higher error probabilities are more likely not to be formatted correctly.
         errProb.append(1.0 - predictionsLSTM[0][idxOfNextToken[i]])
