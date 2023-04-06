@@ -17,8 +17,8 @@ tokensMapping = dict((c, i) for i, c in enumerate(tokensAvailable))
 # Number of suggested fixes
 numOfSuggFixes = 3
 
-# Number of tokens that will be checked for the formating error
-numOfCheckedTok = 3
+# Number of tokens that will be taken into consideration as detected positions for possible formating error
+numOfCheckedTok = 10
 
 # Represents the number of tokens that its code snippet will be consisted of
 tokensPerSnippet = 20
@@ -34,3 +34,9 @@ fixDir = "/Users/Shared/c/CodeRepository/Formatting-Error-Correction/Fixes/"
 
 # Configured tabspace, used during fixing
 tabSpace = '    '
+
+# Probability Threshold. Only tokens with error probabilities above this threshold are taken into consideration for fixing
+probThresh = 0.9
+
+# Return to the user only the fixed file with the best score
+returnBestScoreFile = False
