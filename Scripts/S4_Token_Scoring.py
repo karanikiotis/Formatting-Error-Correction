@@ -102,12 +102,10 @@ def ngramScore(tokensEncoded,lengths):
 
     print('Step 6: Calculation of each token score...')
     start_time = time.time()
-    #breakpoint()
     tokenScores = sdf.tokensScoreCalculation(tokenOccur,snippetsScoresEnc)
     print("Step 6: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
 
     print("Total Time of scoring(seconds): ---- %s seconds ---" % round( (time.time() - funcStartTime), 4))
     print("Total Time of scoring(hours:mins:seconds): ---- %s ---\n" % str(datetime.timedelta(seconds = round( (time.time() - funcStartTime), 4))))
 
-    # breakpoint()
     return tokenScores, snippetsScores, fileScore, snippets, snippetsLengths
