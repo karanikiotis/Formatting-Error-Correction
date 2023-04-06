@@ -28,7 +28,7 @@ def ngramScore(tokensEncoded,lengths):
     funcStartTime = time.time()
     # We have trained a 10-gram model that will be used for code snippet scoring
     # Load 10-gram model
-    lm = sdf.ngramModelImport(Params.path+'10_Gram_Model/','10_gram_model_v2.p')
+    lm = sdf.ngramModelImport(Params.path+'10_Gram_Model/','10_gram_model_v3.p')
     # Break source code file into snippets (ngrams) that will consist of tokensPerSnippet tokens, using a step equal to ngramStep
     snippets = sdf.gramsFormationStep(tokensEncoded, Params.tokensPerSnippet, Params.ngramStep)
     # Calculate the score of the whole source code file regarding its formattion
