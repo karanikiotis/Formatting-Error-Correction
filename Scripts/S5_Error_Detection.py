@@ -19,7 +19,7 @@ def lstmErrorDetection(code):
     """
 
     # Importing LSTM Model
-    lstmModel = keras.models.load_model(Params.path+"lstmModel/LSTM_v4.h5")
+    lstmModel = keras.models.load_model(Params.path+"LSTM_Model/LSTM_v4.h5")
 
     d = dict((c, i) for i, c in enumerate(Params.tokensAvailable))
     [tokens, lengths] = tokenize(code)
