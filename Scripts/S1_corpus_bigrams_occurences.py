@@ -14,7 +14,7 @@ def count_occur(folder_name):
 
     d = dict((c, i) for i, c in enumerate(tokens_available))
 
-    folder_path = r'C:\CodeRepository\Formatting-Error-Correction\Data' + folder_name #Corpus_Java folder contains the 10K Java files
+    folder_path = r'/Users/Shared/c/CodeRepository/Data/' + folder_name #Corpus_Java folder contains the 10K Java files
     os.chdir(folder_path)
 
     corpus_bigrams = [] #Each element of the list represents a list that contains all the bigrams(as tuples) of the i-th code snippet
@@ -48,9 +48,9 @@ def count_occur(folder_name):
     #print(f'Number of bigrams: {len(occurences.keys())}')
 
     #Pickling the occurences file
-    filename = r'C:\CodeRepository\Thesis\Data\occurences_new.p'
+    filename = '/Users/Shared/c/CodeRepository/Data/occurences_new_v2.p'
     outfile = open(filename,'wb')
     pickle.dump(occurences,outfile)
     outfile.close
 
-    return corpus_bigrams,corpus_tokens
+    return corpus_bigrams, corpus_tokens
