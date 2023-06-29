@@ -12,11 +12,6 @@ import S5_Error_Detection
 import S6_Error_Fixing
 import S7_Parameters as Params
 
-# import debugpy
-# debugpy.listen(5678)
-# print('Debugging Session\n')
-# debugpy.wait_for_client()
-
 parser = argparse.ArgumentParser(description = 'Formating Error Detection and Fixing end-to-end pipeline.')
 parser.add_argument('--file', help = 'Source code file to be processed.',required = True)
 parser.add_argument('--mode', help = 'Mode: single or batch.')
@@ -37,7 +32,7 @@ scriptStartTime_v2 = time.time()
 print(f'\n\nStarting Time:{scriptStartTime.strftime("%H:%M:%S")}\n\n')
 
 # Step 1: Importing N-grams Model
-lm = sdf.ngramModelImport(Params.path+"10_Gram_Model", "10_gram_model_v2.p")
+lm = sdf.ngramModelImport(Params.path+"10_Gram_Model", "10_gram_model_v4.p")
 
 # Step 2: Source code file tokenization
 [tokens, lengths] = tokenizer.tokenize(code)
@@ -47,28 +42,47 @@ lm = sdf.ngramModelImport(Params.path+"10_Gram_Model", "10_gram_model_v2.p")
 [tokenScores, snippetsScores, fileScore, snippets, snippetsLengths] = S4_Token_Scoring.ngramScore(tokens,lengths)
 
 # Step 4: Error Detection through LSTM network
-[errProb, startPositionsPerToken, suggestedFixes] = S5_Error_Detection.lstmErrorDetection(code)
-
-print(f'Score before any fix: {fileScore}\n')
+[errProb, startPositionsPerToken, suggestedFixes, errProbPos] = S5_Error_Detection.lstmErrorDetection(code)
+print(f'Source code score before any fix: {fileScore}')
+scorePos = [(x,tokenScores) for tokenScores,x in sorted(zip(tokenScores, startPositionsPerToken), reverse = True)]
 
 # Step 5: Modify probabilities based on token scoring, produced by N-grams model
-tokenScoresMapped = helpFuncs.tokenScoreInterp(tokenScores)
-errProb = helpFuncs.errProbModif(errProb, tokenScoresMapped)
+tokenScoresMapped = helpFuncs.tokenScoreInterp(scorePos,errProbPos)
+errProb = helpFuncs.errProbModif(errProbPos, tokenScoresMapped)
+errProbSorted = [(pos,prob) for prob,pos in sorted(zip(list(errProb.values()),list(errProb.keys())), reverse = True)]
 
 # Step 6 : Sorting suggested fixes and possible formating error positions according to errProb in descending order.
-fixesSorted = [x for _,x in sorted(zip(errProb, suggestedFixes), reverse = True)]
-possErrPositions = [x for _,x in sorted(zip(errProb, startPositionsPerToken), reverse = True)]
-print(f'Detected positions as possible formatting errors: {possErrPositions[:Params.numOfCheckedTok]}\n')
+if(Params.probThreshActive):
+    fixesSorted = [suggestedFixes[pos] for pos, prob in errProbSorted if prob > Params.probThresh]
+    possErrPositions = [pos for prob,pos in sorted(zip(list(errProb.values()),list(errProb.keys())), reverse = True) if prob > Params.probThresh]
+    print(f'Detected positions as possible formatting errors: {possErrPositions}')
+    print(f'Error probabilities of possible formatting errors: {[prob[1] for prob in errProbSorted if prob[1] > Params.probThresh]}\n')
+else:
+    fixesSorted = [suggestedFixes[pos] for pos, prob in errProbSorted][:Params.numOfCheckedTok]
+    possErrPositions = [pos for prob,pos in sorted(zip(list(errProb.values()),list(errProb.keys())), reverse = True)][:Params.numOfCheckedTok]
+    print(f'Detected positions as possible formatting errors: {possErrPositions}')
+    print(f'Error probabilities of possible formatting errors: {[prob[1] for prob in errProbSorted][:Params.numOfCheckedTok]}\n')
 
 # Step 7: Fix detected formattion errors
 print('Step 7: Fixing errorneous token ...\n')
 start_time = time.time()
-fixedCode = S6_Error_Fixing.getFixes(code, lm, possErrPositions, fixesSorted, fileScore)
-print("\nStep 7: Total time of fixing (seconds) ---- %s seconds---\n" % round( (time.time() - start_time), 4))
+fixedCode, fixedScores = S6_Error_Fixing.getFixes(code, lm, possErrPositions, fixesSorted, fileScore)
+print("\nStep 7: Total time of fixing (seconds) ---- %s seconds---" % round( (time.time() - start_time), 4))
 print("Step 7: Total Time of fixing(hours:mins:seconds): ---- %s ---\n" % str(dt.timedelta(seconds = round( (time.time() - start_time), 4))))
 
 # Step 8: Write fixed source code files
-helpFuncs.writeFixedCode(fileName,fixedCode)
+if (fixedCode != []):
+    # Check if we want to return to the user just the file with the best score
+    if(Params.returnBestScoreFile):
+        # Find the best score
+        bestFixScore = min(fixedScores)
+        # Find the index with the best score
+        idxBestFixScore = fixedScores.index(bestFixScore)
+        helpFuncs.writeFixedCode(fileName, fixedCode[idxBestFixScore])
+    else:
+        helpFuncs.writeFixedCode(fileName, fixedCode, batch = True)
+else:
+    print("No error tokens have been detected. The source code file is clear.\n")
 
 end_time = datetime.now()
 print("Total execution time(hours:mins:seconds): ---- %s ---\n" % str(dt.timedelta(seconds = round((time.time() - scriptStartTime_v2), 4))))
