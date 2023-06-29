@@ -3,7 +3,7 @@ import datetime
 from utils import Score_Detect_Functions as sdf
 import S7_Parameters as Params
 
-def ngramScore(tokensEncoded,lengths):
+def ngramScore(tokensList,lengths):
     """
     Description:
         For each one of 20-token snippets, we are going to calculate its score
@@ -12,7 +12,7 @@ def ngramScore(tokensEncoded,lengths):
         Each token's score will be the mean of the scores of the code snippets where it belongs to.
 
     Inputs:
-        tokens (List): A list of encoded tokens that the current source code file consists of.
+        tokensList (List): A list of tokens that the current source code file consists of.
         lengths(List): A list of the length that its token has. For example, number 83 means 
             that this token consists of 83 characters.
 
@@ -28,13 +28,13 @@ def ngramScore(tokensEncoded,lengths):
     funcStartTime = time.time()
     # We have trained a 10-gram model that will be used for code snippet scoring
     # Load 10-gram model
-    lm = sdf.ngramModelImport(Params.path+'10_Gram_Model/','10_gram_model_v3.p')
+    lm = sdf.ngramModelImport(Params.path+'10_Gram_Model/','10_gram_model_v4.p')
     # Break source code file into snippets (ngrams) that will consist of tokensPerSnippet tokens, using a step equal to ngramStep
-    snippets = sdf.gramsFormationStep(tokensEncoded, Params.tokensPerSnippet, Params.ngramStep)
+    snippets = sdf.gramsFormationStep(tokensList, Params.tokensPerSnippet, Params.ngramStep)
     # Calculate the score of the whole source code file regarding its formattion
     print('Step 0: Source code file scoring...')
     start_time = time.time()
-    fileScore = sdf.calcScore(tokensEncoded,lm)
+    fileScore = sdf.calcScore(tokensList,lm)
     print("Step 0: ---- %s seconds ---\n" % round( (time.time() - start_time), 4))
     # Calculate total length for each code snippet
     print('Step 1: Snippets length calculation...')
@@ -57,7 +57,7 @@ def ngramScore(tokensEncoded,lengths):
     # We perform a different kind of encoding than the one that we performed before
     # With this encoding, we just obtain the position of each token in the source code file
     codeTokensEnc = []
-    for j,_ in enumerate(tokensEncoded):
+    for j,_ in enumerate(tokensList):
         codeTokensEnc.append(j)
     # Pair each encoded snippet with the its corresponding score 
     snippetsScoresEnc = {}
