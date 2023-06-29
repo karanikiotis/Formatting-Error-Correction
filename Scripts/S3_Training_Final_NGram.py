@@ -13,23 +13,24 @@
         #ii. sentences padded as above and chained together for a flat stream of words
 
 import sys
-sys.path.insert(0,'C:\CodeRepository\Formatting-Error-Correction')
+import os
+sys.path.insert(0,'/Users/Shared/c/CodeRepository/Formatting-Error-Correction/')
 import pickle
 
 from utils.tokenizer import tokenize
 from nltk.util import everygrams
 from nltk.lm.preprocessing import padded_everygram_pipeline
 from nltk.lm import KneserNeyInterpolated
-from S1_corpus_bigrams_occurences import count_occur
+from S1_Corpus_Bigrams_Occurences import count_occur
 
-_,corpus_tok = count_occur('\\Final_Dataset') #Training set consist of 10000 Java files
-
+directory = 'LSTM_TrainingDataset'
+_,corpusTok = count_occur(directory) 
 ord = 10
-train_set,vocab = padded_everygram_pipeline(ord,corpus_tok)
+trainSet,vocab = padded_everygram_pipeline(ord,corpusTok)
 kn = KneserNeyInterpolated(ord)
-kn.fit(train_set,vocab)
+kn.fit(trainSet,vocab)
 
-filename = r'C:\CodeRepository\Formatting-Error-Correction\10-Gram Model\\10_gram_model_v2.p'
+filename = '/Users/Shared/c/CodeRepository/Formatting-Error-Correction/10_Gram_Model/10_gram_model_v4.p'
 outfile = open(filename,'wb')
 pickle.dump(kn,outfile)
 outfile.close
