@@ -9,7 +9,7 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
 
     """
     Description:
-        
+        This function is responsible for performing fixes on a source code file. It performs three different operations regarding fixing: delete, replace, append
     Inputs: 
         code (String): A string that represents the source code file for fixing its formation.
         lm (Nltk object): N-gram language model used to score each snippet.
@@ -24,6 +24,7 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
             parsing test and also has lower-better score than the original one.
         fixedCodeScores (List): A list with the scores of all fixed coded, that passed the Parsing test and also had a lower score than the original one.
     """
+
     # Store all fixed codes that passed Java parsing test
     fixedCode = []
     # Store all scores of fixed codes that passed Java parsing test
@@ -38,12 +39,12 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
             if newCode not in fixedCode:
                 # Check if new code has better score than the current one
                 scoreFixed = calcScore(newCode, lm)
-                if scoreFixed < score:
+                if ((score - scoreFixed)/score)*100 > Params.scoreThreshold:
                     fixedCode.append(newCode)
                     fixedCodeScores.append(scoreFixed)
-                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
+                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with better score {scoreFixed}.')
                 else:
-                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
+                    print(f'    Case 1 -- Delete errorneous token: Fixed code passed the Java parsing test, with worse score {scoreFixed}.')
         else:
             print(f'    Case 1 -- Delete errorneous token: Fixed code did not passed the Java parsing test.')
 
@@ -87,12 +88,12 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
                 if newCode not in fixedCode:
                     scoreFixed = calcScore(newCode,lm)
                     # Check if new code has better score than the current one
-                    if scoreFixed < score:
+                    if ((score - scoreFixed)/score)*100 > Params.scoreThreshold:
                         fixedCodeScores.append(scoreFixed)
                         fixedCode.append(newCode)
-                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
+                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with better score {scoreFixed}.')
                     else:
-                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
+                        print(f'    Case 2 -- Replace errorneous token: Fixed code passed the Java parsing test, with worse score {scoreFixed}.')
             else:
                 print(f'    Case 2 -- Replace errorneous token: Fixed code did not passed the Java parsing test.')
 
@@ -125,12 +126,12 @@ def getFixes(code, lm, tokenIdxSorted, fixSorted, score):
             if not (parser.get_num_parse_errors(newCode)):
                 if newCode not in fixedCode:
                     scoreFixed = calcScore(newCode,lm)
-                    if scoreFixed < score:
+                    if ((score - scoreFixed)/score)*100 > Params.scoreThreshold:
                         fixedCode.append(newCode)
                         fixedCodeScores.append(scoreFixed)
-                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with lower score {scoreFixed}.')
+                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with better score {scoreFixed}.')
                     else:
-                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with higher or equal score {scoreFixed}.')
+                        print(f'    Case 3 -- Append after errorneous token: Fixed code passed the Java parsing test, with worse score {scoreFixed}.')
             else:
                 print(f'    Case 3 -- Append after errorneous token: Fixed code did not passed the Java parsing test.')
 
