@@ -2,6 +2,7 @@ import os
 import pickle
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
+from sklearn.model_selection import train_test_split
 import numpy as np
 import sys
 from datetime import datetime
@@ -26,7 +27,7 @@ earlystopping = tf.keras.callbacks.EarlyStopping(monitor = "val_loss", min_delta
 d = dict((c, i) for i, c in enumerate(Params.tokensAvailable))
 d_inv = dict((i, c) for i, c in enumerate(Params.tokensAvailable))
 
-directory = '/Users/Shared/c/CodeRepository/Data/10k_Pristine_Train_Dataset_txt'
+directory = '/Users/Shared/c/CodeRepository/Data/LSTM_TrainingDataset'
 os.chdir(directory)
 
 xData = []
@@ -71,8 +72,8 @@ print(f'Starting the training of LSTM Network...\n')
 xData = np.array(xData)
 yData = np.array(yData)
 yData = tf.keras.utils.to_categorical(yData, num_classes = len(Params.tokensAvailable))
-history = model.fit(xData, yData, epochs = 10, validation_split = 0.25, verbose = 1, batch_size = 256, callbacks = [earlystopping])
-model.save('/Users/Shared/c/CodeRepository/Formatting-Error-Correction/LSTM_Model/LSTM_v5.h5')
-
-with open('/Users/Shared/c/CodeRepository/Formatting-Error-Correction/LSTM_Model/history_LSTM_v5.pkl', 'wb') as f:
+X_train, X_test, y_train, y_test = train_test_split(xData, yData, test_size = 0.2, random_state = 7)
+history = model.fit(X_train, y_train, epochs = 10, validation_data = (X_test, y_test), verbose = 1, batch_size = 128)
+model.save('/Users/Shared/c/CodeRepository/Formatting-Error-Correction/LSTM_Model/LSTM_v4.h5')
+with open('/Users/Shared/c/CodeRepository/Formatting-Error-Correction/LSTM_Model/history_LSTM_v4.pkl', 'wb') as f:
     pickle.dump(history, f)
