@@ -1,30 +1,25 @@
 import pickle
-import sys
 import numpy as np
 from nltk.util import ngrams
 from nltk.lm.preprocessing import pad_both_ends
 from utils.helper_func import truncate
 from utils import tokenizer
 
-import debugpy
-# debugpy.listen(5678)
-# print('Debugging Session\n')
-# debugpy.wait_for_client()
-
 def calcScore(snip, lm): 
     """
     Description:
-        A function that calculates the score of a code snippet regarding its formattion using entropy metric
+        A function that calculates the score of a code snippet regarding its formattion using cross entropy metric
     Inputs: 
         snip (List of integers) : A list of ID's of the tokens that the code snippet consists of
         lm (Nltk object) : N-gram language model used to score each snippet.
     Outputs:
         score (float) : Score of the code snippet
     """
+
     if(type(snip) is str):
         snip,_ = tokenizer.tokenize(snip)
     # Pad both the start and the end of the tokens list in order to signify the start and the end of the code snippet
-    snipPadded = list(pad_both_ends(snip, n=10))
+    snipPadded = list(pad_both_ends(snip, n = 10))
     # Formattion of 10-grams
     snipFinal = list(ngrams(snipPadded,10))
     # Using entropy metric to score the code snippet regarding its formattion
@@ -36,14 +31,11 @@ def ngramModelImport(path, filename):
     """
     Description:
         A function that is used to import the trained n-gram model. N-gram model is used to score both code's snippets and code's tokens.
-
     Inputs: 
         path (String): Absolute path on which the model's files is located.
         filename (String): Name of the model's file.
-
     Outputs:
         lm (Nltk object) : N-gram language model used to score each snippet.
-
     """
 
     finalPath = path + '/' + filename 
@@ -55,11 +47,13 @@ def ngramModelImport(path, filename):
 def snippetLengthCalculation(snippets, tokensLength, tokensPerSnip):
     """
     Description:
-        
-    Inputs: 
-        
+        This function is responsible for calculating length for each code's snippet.
+    Inputs:
+        snippets (List of Lists): A list of lists. Each one of the list represents the code snippets.
+        tokensLength (List of Integers): A list tha represents each token's length.
+        tokensPerSnip (Integer): An integer number that declares the number of the tokens that each code snippet has.
     Outputs:
-        
+        snipLengths (List of Integers): A list that represents the length of each code snippet.
     """
 
     pos = 0
@@ -75,15 +69,12 @@ def snippetsScoreCalculation(snippets, lm):
     """
     Description:
         A function that is used to calculate entropy score for each of the snippets that the source code file consists of.
-
-    Inputs: 
+    Inputs:
         snippets (List): A list of lists, each one of them represents a code snippet. Each snippet 
-            consist of a certain number of tokens. Tokens are represented through each IDs.
+            consists of a certain number of tokens. Tokens are represented through each IDs.
         lm (Nltk object): N-gram language model used to score each snippet.
-
     Outputs:
         snipScores (List): A list of the scores for each code's snippet.
-
     """
 
     snipsScores = [] 
@@ -111,7 +102,6 @@ def processSnipScores(snippetsScores):
 
     Outputs:
         snipScores (List): A list of the preprocessed snippets scores.
-
     """
 
     # Convert snippetsScores list into a Numpy array.
@@ -134,21 +124,22 @@ def processSnipScores(snippetsScores):
 def tokensScoreCalculation(tokenOccur, snipScoresEnc):
     """
     Description:
-
+        This function is responsible for calculating cross entropy score for each token according to code snippets cross entropy scores.
     Inputs:
-        tokenOccur ():
-        snipScoresEnc (): 
+        tokenOccur (Dictionary): A dictionary that represents the code snippets that each token appears. For example 80: [21,22,23,24] 
+        means that the 80th tokens appears on 21st, 22nd, 23rd and 24th code snippet.
+        snipScoresEnc (Dictionary): A dictionary that represents entropy score for each code snippet
 
     Outputs:
-        tokensScores ():
+        tokensScores (List): A list of cross entropy scores for each token.
     """
 
     scorePerToken = {}
     for key in list(tokenOccur.keys()):
-        curr_tok_score = 0
+        currTokenScore = 0
         for snip in tokenOccur[key]:
-            curr_tok_score += snipScoresEnc[snip]
-        score = curr_tok_score/len(tokenOccur[key])
+            currTokenScore += snipScoresEnc[snip]
+        score = currTokenScore/len(tokenOccur[key])
         score = truncate(score,2)
         scorePerToken.update([(key,score)])
     tokensScores = list(scorePerToken.values())
@@ -159,15 +150,13 @@ def tokensScoreCalculation(tokenOccur, snipScoresEnc):
 def tokensEncode(tokens, tokensMap):
     """
     Description:
-        This responsible is responsible for token encoding according to vocabulary. So, the first token in the vocabulary will be 
+        This function is responsible for token encoding according to vocabulary. So, the first token in the vocabulary will be 
             represented by 1, the second one will be represented by 2 etc.
-
     Inputs:
-        tokens (List):
-        tokensMap ():
-
+        tokens (List): A list of file's tokens
+        tokensMap (Dictionary): A dictionary that encodes each available token in vocabulary with an integer number
     Outputs:
-        tokensEnc (List):
+        tokensEnc (List): A list of encoded tokens
     """
 
     # Encode tokens. Each token of the source code will be represent by a positive integer value
@@ -175,100 +164,22 @@ def tokensEncode(tokens, tokensMap):
     return tokensEnc
 
 
-def gramsFormationStep(tokensEncoded, tokensPerSnippet, step):
+def gramsFormationStep(tokensList, tokensPerSnippet, step):
     """
     Description:
+        This function is responsible for producing code snippets according to tokensPerSnippet and step arguments.
 
     Inputs:
+        tokensList (List of Strings): A list which consists of file's tokens.
+        tokensPerSnippet (Integer): An integer number that declares the number of the tokens that each code snippet is going to have.
+        step (Integer): An integer number that declares the step between the different code snippets
 
-    Outputs
+    Outputs:
+        snips (List of Lists): A list of lists. Each one of the list represents the code snippets.
     """
 
     snips = []
-    for idx in range(0, len(tokensEncoded) - tokensPerSnippet + step, step):
-        snips.append(tokensEncoded[idx : idx + tokensPerSnippet])
-    
+    for idx in range(0, len(tokensList) - tokensPerSnippet + step, step):
+        snips.append(tokensList[idx : idx + tokensPerSnippet])
+
     return snips
-
-
-
-def errorDetectionThresh(code, thresh): #Returns the tokens with higher score than the THRESHOLD
-    """
-    Description:
-
-    Inputs:
-         
-
-    Outputs:
-
-    """
-
-    THRESHOLD = thresh
-
-    poss_err_tokens = {}
-    s_tokens,_,_,_,_ = get_score(code)
-    for key in list(s_tokens.keys()):
-        if(s_tokens.get(key,None) >= THRESHOLD):
-            poss_err_tokens.update([(key,s_tokens.get(key,None))])
-
-    [tokens,lengths] = tokenizer.tokenize(code)
-
-    len_sum = [1]
-    for j in range(0,len(lengths)):
-        len_sum.append(len_sum[j]+lengths[j])
-
-    token_len = {}
-    for j,leng in enumerate(len_sum):
-        token_len.update([(j,leng)])
-
-    err_tokens_info = []
-    for key in list(poss_err_tokens.keys()):
-        for k in list(token_len.keys()):
-            if(key == k):
-                err_tokens_info.append((key,tokens[key],token_len.get(key,None),s_tokens.get(key,None)))
-    return err_tokens_info
-
-
-def errorDetectionTopN(code, topn): #Returns the top 10 tokens with the highest score
-
-    """
-    Description:
-
-    Inputs:
-
-    Outputs:
-
-    """
-
-    n = topn
-
-    s_tokens,_,_ = get_score(code)
-    sort_s_tokens = sorted(s_tokens.items(),key = lambda x:x[1],reverse = True)
-    sort_s_tokens = dict(sort_s_tokens)
-
-    i = 1
-    poss_err_tokens = {}
-    for key in list(sort_s_tokens.keys()):
-        if(i<= n):
-            poss_err_tokens.update([(key,sort_s_tokens.get(key,None))])
-            i+=1
-        else:
-            break
-
-    [tokens,lengths] = tokenizer.tokenize(code)
-
-    len_sum = [1]
-    for j in range(0,len(lengths)):
-        len_sum.append(len_sum[j]+lengths[j])
-
-    token_len = {}
-    for j,leng in enumerate(len_sum):
-        token_len.update([(j,leng)])
-
-    err_tokens_info = []
-    for key in list(poss_err_tokens.keys()):
-        for k in list(token_len.keys()):
-            if(key == k):
-                err_tokens_info.append((key,tokens[key],token_len.get(key,None),poss_err_tokens.get(key,None)))
-    
-    return err_tokens_info
