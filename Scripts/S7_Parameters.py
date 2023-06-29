@@ -44,3 +44,6 @@ returnBestScoreFile = False
 # This parameter defines whether we are going to filter possible error positions according to the probability threshold
 # or by choosing the numofCheckedTok first tokens.
 probThreshActive = False
+
+# This parameter define the lowest threshold that the percentage difference between the old file score and the fixed file score, should be above
+scoreThreshold = 5
