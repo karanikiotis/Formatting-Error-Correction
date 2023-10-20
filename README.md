@@ -4,13 +4,13 @@
 - [Abstract](#bookmark-abstract)
 - [System's Architecture](#hammer_and_wrench-systems-architecture)
 - [Prerequisities](#white_check_mark-prerequisities)
+- [Directory Structure](#file_folder-directory-structure)
 - [Technology Stack](#rocket-technology-stack)
 - [License](#warning-license)
 - [Contact](#handshake-contact)
 
 ## :bookmark: Abstract 
 <b>Towards an automated source code formatting system</b>
-
 <p align=justify>
 Nowadays, the concept of software has prevailed in all aspects of human daily life, offering significant solutions to a wide variety of issues. The need for producing reliable and functional software within short timeframes that can adapt to possible changes is constantly increasing. In recent years, there has been significant research activity in the field of software development process optimization, while the vast availability of open-source software projects in repositories such as GitHub makes accessing large volumes of code data easy. Leveraging this information can serve as a catalyst for creating useful tools that can greatly accelerate the software development process while improving communication and collaboration among development teams. <br>
 </p>
@@ -41,6 +41,17 @@ pip install javac-parser
 pip install seaborn
 pip install matplotlib
 ```
+## :file_folder: Directory Structure
+<br>├── <b><ins>..</ins></b> <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>10_Gram_Model</ins></b>: Contains the trained N-gram models. <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model</ins></b>: Contains the trained LSTM models.</b><br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model_Training</ins></b>: 
+ <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>Old_Scripts</ins></b>: <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>Scripts</ins></b>: <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>System_Evaluation</ins></b>: <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>utils</ins></b>: <br>
+
 
 ## :rocket: Technology Stack
 * <a href="https://www.python.org" target="_blank"> <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue" alt="python" width="" height=""/></a>
@@ -50,6 +61,7 @@ pip install matplotlib
 * <a href="https://pandas.pydata.org/docs/" target="_blank"> <img src="https://img.shields.io/badge/Pandas-2C2D72?style=for-the-badge&logo=pandas&logoColor=white" alt="pandas" width="" height=""/></a>
 * <a href="https://www.linux.org/" target="_blank"> <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="linux" width="" height=""/></a>
 * <a href="https://github.com/" target="_blank"> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="github" width="" height=""/></a>
+
 
 ## :warning: License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
