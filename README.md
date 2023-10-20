@@ -38,7 +38,7 @@ July 2023 </i> <br>
 </p>
 
 ## System's Architecture
- <img src="https://github.com/karanikiotis/Formatting-Error-Correction/docs/system_architecture.png"/>
+ <img src="docs/system_architecture.png"/>
 
 ## Dependencies
 ```
