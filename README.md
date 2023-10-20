@@ -1,14 +1,14 @@
 # Thesis
 ## 📚 Table of Contents 
 
-- [Abstract](#abstract)
+- [Abstract](#bookmark-abstract)
 - [System's Architecture](#hammer_and_wrench-systems-architecture)
 - [Prerequisities](#white_check_mark-prerequisities)
 - [Technology Stack](#rocket-technology-stack)
 - [License](#warning-license)
 - [Contact](#handshake-contact)
 
-## Abstract 
+## :bookmark: Abstract 
 <b>Towards an automated source code formatting system</b>
 
 <p align=justify>
@@ -55,6 +55,6 @@ pip install matplotlib
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## :handshake: Contact 
-Reach out to me:
+Let's connect:
 * <a href="mailto:kanoutas.tom@gmail.com" target="blank"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/></a>
 * <a href="https://www.linkedin.com/in/thomaskanoutas/"><img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge"/></a>
