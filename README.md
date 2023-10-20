@@ -2,11 +2,11 @@
 ## 📚 Table of Contents 
 
 - [Abstract](#abstract)
-- [System's Architecture](#systems-architecture)
+- [System's Architecture](#hammer_and_wrench-systems-architecture)
 - [Prerequisities](#white_check_mark-prerequisities)
-- [Technology Stack](#rocket-technologystack)
+- [Technology Stack](#rocket-technology-stack)
 - [License](#warning-license)
-- [Contact](#shaking_hands-contact)
+- [Contact](#handshake-contact)
 
 ## Abstract 
 <b>Towards an automated source code formatting system</b>
@@ -28,7 +28,7 @@ Aristotle University of Thessaloniki, Greece <br>
 July 2023 </i> <br>
 </p>
 
-## System's Architecture
+## :hammer_and_wrench: System's Architecture
  <img src="docs/system_architecture.png"/>
 
 ## :white_check_mark: Prerequisities
@@ -54,8 +54,7 @@ pip install matplotlib
 ## :warning: License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-
-## :shaking_hands: Contact 
+## :handshake: Contact 
 Reach out to me:
 * <a href="mailto:kanoutas.tom@gmail.com" target="blank"><img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/></a>
 * <a href="https://www.linkedin.com/in/thomaskanoutas/"><img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge"/></a>
