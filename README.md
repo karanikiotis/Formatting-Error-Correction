@@ -35,11 +35,11 @@ July 2023 </i> <br>
 ## Usage
 * <b><u>Case 1</u></b>: Formatting error fix with <b>token deletion</b>
  <img src="docs/fix1.png"/>
+
 * <b><u>Case 2</u></b>: Formatting error fix with <b>replacing the token</b>
  <img src="docs/fix2.png"/>
+
  * <b><u>Case 3</u></b>: Formatting error fix with <b>appending a new token</b>
-
-
 
 ## :white_check_mark: Prerequisities
 ```
