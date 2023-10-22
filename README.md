@@ -25,6 +25,8 @@ The system designed within the scope of this thesis is evaluated on 8000 Java co
 <p align=right>
 <i>Thomas Kanoutas <br>
 Electrical & Computer Engineering <br>
+<a href="https://issel.ee.auth.gr">Intelligent Systems & Software Engineering Labgroup (ISSEL)</a>
+<br>
 Aristotle University of Thessaloniki, Greece <br>
 July 2023 </i> <br>
 </p>
@@ -51,11 +53,10 @@ pip install matplotlib
 ```
 ## :file_folder: Directory Structure
 <br>├── <b><ins>..</ins></b> <br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>10_Gram_Model</ins></b>: Contains the trained N-gram models. <br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model</ins></b>: Contains the trained LSTM models.</b><br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>10_Gram_Model</ins></b>: Contains the trained N-gram model. <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model</ins></b>: Contains the trained LSTM model.</b><br>
 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model_Training</ins></b>: 
  <br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>Old_Scripts</ins></b>: <br>
 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>Scripts</ins></b>: <br>
 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>System_Evaluation</ins></b>: <br>
 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>utils</ins></b>: <br>
