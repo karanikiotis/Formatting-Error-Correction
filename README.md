@@ -55,11 +55,10 @@ pip install matplotlib
 <br>├── <b><ins>..</ins></b> <br>
 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>10_Gram_Model</ins></b>: Contains the trained N-gram model. <br>
 &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model</ins></b>: Contains the trained LSTM model.</b><br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model_Training</ins></b>: 
- <br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>Scripts</ins></b>: <br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>System_Evaluation</ins></b>: <br>
-&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>utils</ins></b>: <br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>LSTM_Model_Training:</ins></b> Python scripts regarding LSTM training.<br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>Scripts</ins></b>: Basic Python scripts that implement project's functionalities.<br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>System_Evaluation</ins></b>: Scripts for evaluating the final system.<br>
+&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <b><ins>utils</ins></b>: Tools and utilities.<br>
 
 
 ## :rocket: Technology Stack
