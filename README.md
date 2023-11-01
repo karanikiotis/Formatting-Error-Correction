@@ -11,7 +11,7 @@
 - [Contact](#handshake-contact)
 
 ## :bookmark: Abstract 
-<b>Towards an automated source code formatting system</b>
+<b>Towards an Automated Source Code Formatting System</b>
 <p align=justify>
 Nowadays, the concept of software has prevailed in all aspects of human daily life, offering significant solutions to a wide variety of issues. The need for producing reliable and functional software within short timeframes that can adapt to possible changes is constantly increasing. In recent years, there has been significant research activity in the field of software development process optimization, while the vast availability of open-source software projects in repositories such as GitHub makes accessing large volumes of code data easy. Leveraging this information can serve as a catalyst for creating useful tools that can greatly accelerate the software development process while improving communication and collaboration among development teams. <br>
 </p>
